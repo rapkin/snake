@@ -1,0 +1,7 @@
+#game_map {
+  border: 3px solid #111;
+  display: block;
+  margin: 30px auto;
+  background: #eee;
+  box-shadow: 0 0 30px #333;
+}
