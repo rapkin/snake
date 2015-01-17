@@ -6,15 +6,16 @@ var Map,
 Map = (function(_super) {
   __extends(Map, _super);
 
-  Map.prototype.color = "#444";
+  Map.prototype.color = "#222";
 
-  function Map(game, tag) {
+  function Map(game) {
     var h, i, j, k, w, _i, _j, _k, _l, _len, _len1, _ref, _ref1, _results, _results1;
     this.game = game;
-    this.tag = tag;
-    this.game.g = this.tag.getContext('2d');
-    this.tag.width = this.game.width * this.game.size;
-    this.tag.height = this.game.height * this.game.size;
+    this.game.g = this.game.canvas.getContext('2d');
+    this.game.canvas.width = this.game.width * this.game.size;
+    this.game.canvas.height = this.game.height * this.game.size;
+    this.game.wrapper.style.width = "" + this.game.canvas.width + "px";
+    this.game.wrapper.style.height = "" + this.game.canvas.height + "px";
     w = (function() {
       _results = [];
       for (var _i = 0, _ref = this.game.width; 0 <= _ref ? _i < _ref : _i > _ref; 0 <= _ref ? _i++ : _i--){ _results.push(_i); }
@@ -39,8 +40,8 @@ Map = (function(_super) {
   }
 
   Map.prototype.draw_ground = function() {
-    this.game.g.fillStyle = "#333";
-    this.game.g.fillRect(0, 0, this.tag.width, this.tag.height);
+    this.game.g.fillStyle = "#111";
+    this.game.g.fillRect(0, 0, this.game.canvas.width, this.game.canvas.height);
     return this.draw();
   };
 

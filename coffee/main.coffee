@@ -1,8 +1,5 @@
 window.onload = ->
-  window.game = new Game 40, 30, 14
-  game.SPEED = 10
-  do game.interupt
+  window.game = new Game 20, 20, 15
+  game.SPEED = 13
+  do game.start
   return
-
-window.captureEvents Event.KEYPRESS
-window.onkeydown = pressed

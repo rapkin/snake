@@ -30,37 +30,43 @@ Snake = (function(_super) {
   }
 
   Snake.prototype.move = function() {
-    var first;
+    var first, next;
     this.tail = this.points.pop();
     first = this.points[0];
     switch (this.direction) {
       case this.UP:
         if (first[1] > 0) {
-          this.points.unshift([first[0], first[1] - 1]);
+          next = [first[0], first[1] - 1];
         } else {
-          this.points.unshift([first[0], this.game.height - 1]);
+          next = [first[0], this.game.height - 1];
         }
         break;
       case this.RIGHT:
         if (first[0] < this.game.width - 1) {
-          this.points.unshift([first[0] + 1, first[1]]);
+          next = [first[0] + 1, first[1]];
         } else {
-          this.points.unshift([0, first[1]]);
+          next = [0, first[1]];
         }
         break;
       case this.DOWN:
         if (first[1] < this.game.height - 1) {
-          this.points.unshift([first[0], first[1] + 1]);
+          next = [first[0], first[1] + 1];
         } else {
-          this.points.unshift([first[0], 0]);
+          next = [first[0], 0];
         }
         break;
       case this.LEFT:
         if (first[0] > 0) {
-          this.points.unshift([first[0] - 1, first[1]]);
+          next = [first[0] - 1, first[1]];
         } else {
-          this.points.unshift([this.game.width - 1, first[1]]);
+          next = [this.game.width - 1, first[1]];
         }
+    }
+    if (next[0] === this.game.food.points[0][0] && next[1] === this.game.food.points[0][1]) {
+      this.points.unshift(next);
+      this.game.food.respawn();
+    } else {
+      this.points.unshift(next);
     }
   };
 

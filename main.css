@@ -1,7 +1,53 @@
-#game_map {
-  border: 3px solid #111;
-  display: block;
-  margin: 30px auto;
+body {
   background: #eee;
-  box-shadow: 0 0 30px #333;
+}
+#game {
+  border: 3px solid #111;
+  border-top: 20px solid #111;
+  border-radius: 5px;
+  margin: 30px auto;
+  position: relative;
+  box-shadow: 0 0 30px #111;
+}
+#close, #full, #min {
+  border: 1px solid #000;
+  width: 10px;
+  height: 10px;
+  background: red;
+  border-radius: 50%;
+  position: absolute;
+  left: 5px;
+  top: -15px;
+  z-index: 2;
+}
+#full {
+  left: 20px;
+  background: green;
+}
+#min {
+  left: 35px;
+  background: yellow;
+}
+#title {
+  position: absolute;
+  width: 100%;
+  text-align: center;
+  z-index: 1;
+  color: #fff;
+  top: -18px;
+  padding: 0;
+  margin: 0;
+  font-family: Monospace;
+}
+#score {
+  position: absolute;
+  width: 100%;
+  text-align: right;
+  z-index: 1;
+  color: yellow;
+  top: -18px;
+  right: 5px;
+  padding: 0;
+  margin: 0;
+  font-family: Monospace;
 }

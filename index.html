@@ -4,7 +4,23 @@
   <title>my coffee test</title>
 </head>
 <body>
-  <canvas id="game_map"></canvas>
+  <div id="game">
+    <div id="close"></div>
+    <div id="full"></div>
+    <div id="min"></div>
+    <span id="title">- Snake -</span>
+    <span id="score">0</span>
+  </div>
+  <pre>
+    Move:
+     W/&#9650; - faster snake
+     S/&#9660; - slover snake
+     A/&#9664; - turn left
+     D/&#9654; - turn right
+     ESC/Enter/Space - pause/resume game
+
+     Source code on <a href="http://github.com/rapkin/snake">GitHub</a>
+  </pre>
   <script type="text/javascript" src="js/helpers.js"></script>
   <script type="text/javascript" src="js/game_object.js"></script>
   <script type="text/javascript" src="js/map.js"></script>

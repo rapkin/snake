@@ -24,17 +24,21 @@ class Snake extends GameObject
     first = @points[0]
     switch @direction
       when @UP
-        if (first[1] > 0) then @points.unshift [first[0],first[1]-1]
-        else  @points.unshift [first[0], @game.height-1]
+        if (first[1] > 0) then next = [first[0],first[1]-1]
+        else  next = [first[0], @game.height-1]
       when @RIGHT
-        if (first[0] < @game.width-1) then @points.unshift [first[0]+1,first[1]]
-        else  @points.unshift [0, first[1]]
+        if (first[0] < @game.width-1) then next = [first[0]+1,first[1]]
+        else  next = [0, first[1]]
       when @DOWN
-        if (first[1] < @game.height-1) then @points.unshift [first[0],first[1]+1]
-        else  @points.unshift [first[0], 0]
+        if (first[1] < @game.height-1) then next = [first[0],first[1]+1]
+        else  next = [first[0], 0]
       when @LEFT
-        if (first[0] > 0) then @points.unshift [first[0]-1,first[1]]
-        else  @points.unshift [@game.width-1, first[1]]
+        if (first[0] > 0) then next = [first[0]-1,first[1]]
+        else  next = [@game.width-1, first[1]]
+    if next[0] is @game.food.points[0][0] and next[1] is @game.food.points[0][1]
+      @points.unshift next
+      do @game.food.respawn
+    else @points.unshift next
     return
 
   turn_left: ->

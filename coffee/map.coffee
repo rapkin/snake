@@ -1,10 +1,12 @@
 class Map extends GameObject
-  color: "#444"
+  color: "#222"
 
-  constructor: (@game, @tag) ->
-    @game.g = @tag.getContext '2d'
-    @tag.width = (@game.width) * @game.size
-    @tag.height = (@game.height) * @game.size
+  constructor: (@game) ->
+    @game.g = @game.canvas.getContext '2d'
+    @game.canvas.width = (@game.width) * @game.size
+    @game.canvas.height = (@game.height) * @game.size
+    @game.wrapper.style.width = "#{@game.canvas.width}px"
+    @game.wrapper.style.height = "#{@game.canvas.height}px"
     w = [0...@game.width]
     h = [0...@game.height]
     j = 0
@@ -16,7 +18,7 @@ class Map extends GameObject
     log "Map #{@game.width}x#{@game.height} created!"
 
   draw_ground: ->
-    @game.g.fillStyle = "#333"
-    @game.g.fillRect 0, 0, @tag.width, @tag.height
+    @game.g.fillStyle = "#111"
+    @game.g.fillRect 0, 0, @game.canvas.width, @game.canvas.height
     do @draw
 

@@ -19,22 +19,24 @@ Game = (function() {
     this.width = width != null ? width : 30;
     this.height = height != null ? height : 30;
     this.size = size != null ? size : 12;
+    this.canvas = document.createElement("canvas");
+    this.wrapper = $("game");
+    this.wrapper.appendChild(this.canvas);
     this.started = false;
-    this.map = new Map(this, $("game_map"));
+    this.map = new Map(this);
     this.snake = new Snake(this);
     this.food = new Food(this);
+    window.captureEvents(Event.KEYPRESS);
+    window.onkeydown = this.interupt.bind(this);
   }
 
   Game.prototype.interupt = function(e) {
     var key;
     if (!e) {
       if (this.started === true) {
-        clearInterval(this.interval);
-        this.started = false;
+        this.stop();
       } else {
-        this.interval = setInterval(main_loop_help, 1000 / this.SPEED);
-        log("speed is " + this.SPEED + " point/sec");
-        this.started = true;
+        this.start();
       }
     } else {
       e = e || window.event;
@@ -51,23 +53,35 @@ Game = (function() {
       if (__indexOf.call(this.UP, key) >= 0) {
         this.interupt();
         if (this.SPEED < 60) {
-          this.SPEED++;
+          this.SPEED += 2;
         }
         this.interupt();
       }
       if (__indexOf.call(this.DOWN, key) >= 0) {
         this.interupt();
-        if (this.SPEED > 1) {
-          this.SPEED--;
+        if (this.SPEED > 2) {
+          this.SPEED -= 2;
         }
         this.interupt();
       }
     }
   };
 
+  Game.prototype.stop = function() {
+    clearInterval(this.interval);
+    return this.started = false;
+  };
+
+  Game.prototype.start = function() {
+    this.interval = setInterval(this.main_loop.bind(this), 1000 / this.SPEED);
+    log("speed is " + this.SPEED + " point/sec");
+    return this.started = true;
+  };
+
   Game.prototype.main_loop = function() {
     this.snake.move();
     this.snake.draw();
+    this.food.draw();
   };
 
   return Game;
