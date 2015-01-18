@@ -21,4 +21,3 @@ class Map extends GameObject
     @game.g.fillStyle = "#111"
     @game.g.fillRect 0, 0, @game.canvas.width, @game.canvas.height
     do @draw
-

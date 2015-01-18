@@ -7,6 +7,7 @@ Score = (function() {
   function Score(game, tag) {
     this.game = game;
     this.tag = tag;
+    this.tag.textContent = this.value;
   }
 
   Score.prototype.next = function() {

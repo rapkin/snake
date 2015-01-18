@@ -6,11 +6,13 @@ class Game
   UP: [38, 87]
   DOWN: [40, 83]
 
-  over: no
-
   constructor: (@width = 30, @height = 30, @size = 12) ->
-    @canvas = document.createElement "canvas"
+    @over = no
     @wrapper = $ "game"
+    @canvas = $ "game_canvas"
+    if @canvas? then do @canvas.remove
+    @canvas = document.createElement "canvas"
+    @canvas.setAttribute "id", "game_canvas"
     @wrapper.appendChild @canvas
     @started = no
     @score = new Score(this, $ "score")
@@ -58,3 +60,6 @@ class Game
     do @snake.draw
     do @food.draw
     return
+
+  new:(width, height, size) ->
+    @constructor width, height, size

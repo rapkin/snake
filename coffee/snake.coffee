@@ -60,3 +60,4 @@ class Snake extends GameObject
     super [@tail], @game.map.color
     super
     super [@points[0]], @head_color
+    

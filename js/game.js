@@ -15,14 +15,18 @@ Game = (function() {
 
   Game.prototype.DOWN = [40, 83];
 
-  Game.prototype.over = false;
-
   function Game(width, height, size) {
     this.width = width != null ? width : 30;
     this.height = height != null ? height : 30;
     this.size = size != null ? size : 12;
-    this.canvas = document.createElement("canvas");
+    this.over = false;
     this.wrapper = $("game");
+    this.canvas = $("game_canvas");
+    if (this.canvas != null) {
+      this.canvas.remove();
+    }
+    this.canvas = document.createElement("canvas");
+    this.canvas.setAttribute("id", "game_canvas");
     this.wrapper.appendChild(this.canvas);
     this.started = false;
     this.score = new Score(this, $("score"));
@@ -87,6 +91,10 @@ Game = (function() {
     this.snake.move();
     this.snake.draw();
     this.food.draw();
+  };
+
+  Game.prototype["new"] = function(width, height, size) {
+    return this.constructor(width, height, size);
   };
 
   return Game;
