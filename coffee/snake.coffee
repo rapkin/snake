@@ -20,7 +20,6 @@ class Snake extends GameObject
     do @draw
 
   move: ->
-    @tail = do @points.pop
     first = @points[0]
     switch @direction
       when @UP
@@ -35,10 +34,18 @@ class Snake extends GameObject
       when @LEFT
         if (first[0] > 0) then next = [first[0]-1,first[1]]
         else  next = [@game.width-1, first[1]]
-    if next[0] is @game.food.points[0][0] and next[1] is @game.food.points[0][1]
+    free_points = intersec_arrays @game.map.points, @points, arr_comp
+    for free in free_points
+      if next[0] is free[0] and next[1] is free[1]
+        next_is_free = yes
+    if next_is_free and next[0] is @game.food.points[0][0] and next[1] is @game.food.points[0][1]
       @points.unshift next
       do @game.food.respawn
-    else @points.unshift next
+      do @game.score.next
+    else if next_is_free
+      @tail = do @points.pop
+      @points.unshift next
+    else @game.over = yes
     return
 
   turn_left: ->
@@ -50,6 +57,6 @@ class Snake extends GameObject
     else @direction = @UP
 
   draw: ->
-    super
     super [@tail], @game.map.color
+    super
     super [@points[0]], @head_color

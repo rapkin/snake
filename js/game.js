@@ -15,6 +15,8 @@ Game = (function() {
 
   Game.prototype.DOWN = [40, 83];
 
+  Game.prototype.over = false;
+
   function Game(width, height, size) {
     this.width = width != null ? width : 30;
     this.height = height != null ? height : 30;
@@ -23,6 +25,7 @@ Game = (function() {
     this.wrapper = $("game");
     this.wrapper.appendChild(this.canvas);
     this.started = false;
+    this.score = new Score(this, $("score"));
     this.map = new Map(this);
     this.snake = new Snake(this);
     this.food = new Food(this);
@@ -38,7 +41,7 @@ Game = (function() {
       } else {
         this.start();
       }
-    } else {
+    } else if (!this.over) {
       e = e || window.event;
       key = e.which || e.keyCode;
       if (__indexOf.call(this.ESC, key) >= 0) {
@@ -52,30 +55,32 @@ Game = (function() {
       }
       if (__indexOf.call(this.UP, key) >= 0) {
         this.interupt();
-        if (this.SPEED < 60) {
-          this.SPEED += 2;
+        if (this.SPEED < 30) {
+          this.SPEED++;
         }
         this.interupt();
       }
       if (__indexOf.call(this.DOWN, key) >= 0) {
         this.interupt();
-        if (this.SPEED > 2) {
-          this.SPEED -= 2;
+        if (this.SPEED > 1) {
+          this.SPEED--;
         }
         this.interupt();
       }
+    } else {
+      return log("game over with score " + this.score.value);
     }
   };
 
   Game.prototype.stop = function() {
     clearInterval(this.interval);
-    return this.started = false;
+    this.started = false;
   };
 
   Game.prototype.start = function() {
-    this.interval = setInterval(this.main_loop.bind(this), 1000 / this.SPEED);
-    log("speed is " + this.SPEED + " point/sec");
-    return this.started = true;
+    this.interval = setInterval(this.main_loop.bind(this), 1000 / this.SPEED / 2);
+    log("speed is " + this.SPEED);
+    this.started = true;
   };
 
   Game.prototype.main_loop = function() {

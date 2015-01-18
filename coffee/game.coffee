@@ -6,11 +6,14 @@ class Game
   UP: [38, 87]
   DOWN: [40, 83]
 
+  over: no
+
   constructor: (@width = 30, @height = 30, @size = 12) ->
     @canvas = document.createElement "canvas"
     @wrapper = $ "game"
     @wrapper.appendChild @canvas
     @started = no
+    @score = new Score(this, $ "score")
     @map = new Map(this)
     @snake = new Snake(this)
     @food = new Food(this)
@@ -22,7 +25,7 @@ class Game
       if @started is yes then do @stop
       else do @start
       return
-    else
+    else if not @over
       e = e || window.event
       key = e.which || e.keyCode
       if key in @ESC then do @interupt
@@ -30,22 +33,25 @@ class Game
       if key in @RIGHT then do @snake.turn_right
       if key in @UP
         do @interupt
-        @SPEED+=2 if @SPEED < 60
+        @SPEED++ if @SPEED < 30
         do @interupt
       if key in @DOWN
         do @interupt
-        @SPEED-=2 if @SPEED > 2
+        @SPEED-- if @SPEED > 1
         do @interupt
       return
+    else log "game over with score #{@score.value}"
 
   stop: ->
     clearInterval @interval
     @started = no
+    return
 
   start: ->
-    @interval = setInterval @main_loop.bind(@), 1000/@SPEED
-    log "speed is #{@SPEED} point/sec"
+    @interval = setInterval @main_loop.bind(@), 1000/@SPEED/2
+    log "speed is #{@SPEED}"
     @started = yes
+    return
 
   main_loop: ->
     do @snake.move

@@ -7,13 +7,13 @@ class Food extends GameObject
 
   spawn: ->
     ok = no
-    loop
-      x = random_int 0, @game.width-1
-      y = random_int 0, @game.height-1
-      points = [[x,y]]
-      unless points[0] in @game.snake.points or points[0] is @game.snake.tail then break
-    @points = points
-    log "food at [#{@points[0]}]"
+    free = intersec_arrays @game.map.points, @game.snake.points, arr_comp
+    if free.length > 0
+      @points = [free[random_int(1, free.length-1)]]
+      log "food at [#{@points[0]}]"
+    else  
+      @game.over = yes
+      log "game finished, snake has max size"
 
   remove: ->
     @draw @points, @game.map.color
