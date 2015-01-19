@@ -15,9 +15,9 @@ Food = (function(_super) {
   }
 
   Food.prototype.spawn = function() {
-    var free, ok;
-    ok = false;
+    var free;
     free = intersec_arrays(this.game.map.points, this.game.snake.points, arr_comp);
+    log(free.length);
     if (free.length > 0) {
       this.points = [free[random_int(1, free.length - 1)]];
       return log("food at [" + this.points[0] + "]");

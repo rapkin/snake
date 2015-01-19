@@ -1,20 +1,19 @@
 class Game
-  SPEED: 5
   ESC: [27, 13, 32]
   LEFT: [37, 65]
   RIGHT: [39, 68]
   UP: [38, 87]
   DOWN: [40, 83]
 
-  constructor: (@width = 30, @height = 30, @size = 12) ->
+  constructor: (@width = 30, @height = 30, @size = 12, @SPEED = 5) ->
     @over = no
+    @started = no
     @wrapper = $ "game"
     @canvas = $ "game_canvas"
     if @canvas? then do @canvas.remove
     @canvas = document.createElement "canvas"
     @canvas.setAttribute "id", "game_canvas"
     @wrapper.appendChild @canvas
-    @started = no
     @score = new Score(this, $ "score")
     @map = new Map(this)
     @snake = new Snake(this)
@@ -62,4 +61,5 @@ class Game
     return
 
   new:(width, height, size) ->
+    do @stop
     @constructor width, height, size

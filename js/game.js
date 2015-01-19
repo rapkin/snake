@@ -3,8 +3,6 @@ var Game,
   __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
 Game = (function() {
-  Game.prototype.SPEED = 5;
-
   Game.prototype.ESC = [27, 13, 32];
 
   Game.prototype.LEFT = [37, 65];
@@ -15,11 +13,13 @@ Game = (function() {
 
   Game.prototype.DOWN = [40, 83];
 
-  function Game(width, height, size) {
+  function Game(width, height, size, SPEED) {
     this.width = width != null ? width : 30;
     this.height = height != null ? height : 30;
     this.size = size != null ? size : 12;
+    this.SPEED = SPEED != null ? SPEED : 5;
     this.over = false;
+    this.started = false;
     this.wrapper = $("game");
     this.canvas = $("game_canvas");
     if (this.canvas != null) {
@@ -28,7 +28,6 @@ Game = (function() {
     this.canvas = document.createElement("canvas");
     this.canvas.setAttribute("id", "game_canvas");
     this.wrapper.appendChild(this.canvas);
-    this.started = false;
     this.score = new Score(this, $("score"));
     this.map = new Map(this);
     this.snake = new Snake(this);
@@ -94,6 +93,7 @@ Game = (function() {
   };
 
   Game.prototype["new"] = function(width, height, size) {
+    this.stop();
     return this.constructor(width, height, size);
   };
 

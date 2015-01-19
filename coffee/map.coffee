@@ -2,6 +2,7 @@ class Map extends GameObject
   color: "#222"
 
   constructor: (@game) ->
+    @points = []
     @game.g = @game.canvas.getContext '2d'
     @game.canvas.width = (@game.width) * @game.size
     @game.canvas.height = (@game.height) * @game.size

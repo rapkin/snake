@@ -11,6 +11,7 @@ Map = (function(_super) {
   function Map(game) {
     var h, i, j, k, w, _i, _j, _k, _l, _len, _len1, _ref, _ref1, _results, _results1;
     this.game = game;
+    this.points = [];
     this.game.g = this.game.canvas.getContext('2d');
     this.game.canvas.width = this.game.width * this.game.size;
     this.game.canvas.height = this.game.height * this.game.size;
