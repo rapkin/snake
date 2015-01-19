@@ -14,33 +14,26 @@ class Game
     @canvas = document.createElement "canvas"
     @canvas.setAttribute "id", "game_canvas"
     @wrapper.appendChild @canvas
-    @score = new Score(this, $ "score")
-    @map = new Map(this)
-    @snake = new Snake(this)
-    @food = new Food(this)
+    @score = new Score this, $ "score"
+    @map = new Map this
+    @snake = new Snake this
+    @food = new Food this
     window.captureEvents Event.KEYPRESS
     window.onkeydown = @interupt.bind @
 
   interupt: (e) ->
-    unless e
-      if @started is yes then do @stop
-      else do @start
-      return
-    else if not @over
-      e = e || window.event
-      key = e.which || e.keyCode
-      if key in @ESC then do @interupt
+    e = e || window.event
+    key = e.which
+    log key
+    if not @over
+      if key in @ESC 
+        if @started then do @stop
+        else do @start
       if key in @LEFT then do @snake.turn_left
       if key in @RIGHT then do @snake.turn_right
-      if key in @UP
-        do @interupt
-        @SPEED++ if @SPEED < 30
-        do @interupt
-      if key in @DOWN
-        do @interupt
-        @SPEED-- if @SPEED > 1
-        do @interupt
-      return
+      if 1 < @SPEED < 30 and not @started
+        if key in @UP then @SPEED++
+        if key in @DOWN then @SPEED--
     else log "game over with score #{@score.value}"
 
   stop: ->

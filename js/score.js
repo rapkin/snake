@@ -2,11 +2,10 @@
 var Score;
 
 Score = (function() {
-  Score.prototype.value = 0;
-
   function Score(game, tag) {
     this.game = game;
     this.tag = tag;
+    this.value = 0;
     this.tag.textContent = this.value;
   }
 

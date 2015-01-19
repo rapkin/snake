@@ -1,7 +1,6 @@
 class Score
-  value: 0
-
   constructor: (@game, @tag) ->
+    @value = 0
     @tag.textContent = @value
 
   next: ->

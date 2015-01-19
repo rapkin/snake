@@ -37,18 +37,17 @@ Game = (function() {
   }
 
   Game.prototype.interupt = function(e) {
-    var key;
-    if (!e) {
-      if (this.started === true) {
-        this.stop();
-      } else {
-        this.start();
-      }
-    } else if (!this.over) {
-      e = e || window.event;
-      key = e.which || e.keyCode;
+    var key, _ref;
+    e = e || window.event;
+    key = e.which;
+    log(key);
+    if (!this.over) {
       if (__indexOf.call(this.ESC, key) >= 0) {
-        this.interupt();
+        if (this.started) {
+          this.stop();
+        } else {
+          this.start();
+        }
       }
       if (__indexOf.call(this.LEFT, key) >= 0) {
         this.snake.turn_left();
@@ -56,19 +55,13 @@ Game = (function() {
       if (__indexOf.call(this.RIGHT, key) >= 0) {
         this.snake.turn_right();
       }
-      if (__indexOf.call(this.UP, key) >= 0) {
-        this.interupt();
-        if (this.SPEED < 30) {
+      if ((1 < (_ref = this.SPEED) && _ref < 30) && !this.started) {
+        if (__indexOf.call(this.UP, key) >= 0) {
           this.SPEED++;
         }
-        this.interupt();
-      }
-      if (__indexOf.call(this.DOWN, key) >= 0) {
-        this.interupt();
-        if (this.SPEED > 1) {
-          this.SPEED--;
+        if (__indexOf.call(this.DOWN, key) >= 0) {
+          return this.SPEED--;
         }
-        this.interupt();
       }
     } else {
       return log("game over with score " + this.score.value);

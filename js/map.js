@@ -9,7 +9,7 @@ Map = (function(_super) {
   Map.prototype.color = "#222";
 
   function Map(game) {
-    var h, i, j, k, w, _i, _j, _k, _l, _len, _len1, _ref, _ref1, _results, _results1;
+    var i, j, k, _i, _j, _ref, _ref1;
     this.game = game;
     this.points = [];
     this.game.g = this.game.canvas.getContext('2d');
@@ -17,22 +17,10 @@ Map = (function(_super) {
     this.game.canvas.height = this.game.height * this.game.size;
     this.game.wrapper.style.width = "" + this.game.canvas.width + "px";
     this.game.wrapper.style.height = "" + this.game.canvas.height + "px";
-    w = (function() {
-      _results = [];
-      for (var _i = 0, _ref = this.game.width; 0 <= _ref ? _i < _ref : _i > _ref; 0 <= _ref ? _i++ : _i--){ _results.push(_i); }
-      return _results;
-    }).apply(this);
-    h = (function() {
-      _results1 = [];
-      for (var _j = 0, _ref1 = this.game.height; 0 <= _ref1 ? _j < _ref1 : _j > _ref1; 0 <= _ref1 ? _j++ : _j--){ _results1.push(_j); }
-      return _results1;
-    }).apply(this);
     j = 0;
-    for (_k = 0, _len = w.length; _k < _len; _k++) {
-      i = w[_k];
-      for (_l = 0, _len1 = h.length; _l < _len1; _l++) {
-        k = h[_l];
-        this.points[j++] = [w[i], h[k]];
+    for (i = _i = 0, _ref = this.game.width; 0 <= _ref ? _i < _ref : _i > _ref; i = 0 <= _ref ? ++_i : --_i) {
+      for (k = _j = 0, _ref1 = this.game.height; 0 <= _ref1 ? _j < _ref1 : _j > _ref1; k = 0 <= _ref1 ? ++_j : --_j) {
+        this.points[j++] = [i, k];
       }
     }
     this.game.point_size = this.game.size - 2;
@@ -44,6 +32,20 @@ Map = (function(_super) {
     this.game.g.fillStyle = "#111";
     this.game.g.fillRect(0, 0, this.game.canvas.width, this.game.canvas.height);
     return this.draw();
+  };
+
+  Map.prototype.all_free = function() {
+    var a, free, j, _i, _len, _ref;
+    j = 0;
+    free = [];
+    _ref = this.points;
+    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+      a = _ref[_i];
+      if (this.game.snake.is_free(a)) {
+        free[j++] = a;
+      }
+    }
+    return free;
   };
 
   return Map;

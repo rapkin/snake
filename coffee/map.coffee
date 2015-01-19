@@ -8,12 +8,10 @@ class Map extends GameObject
     @game.canvas.height = (@game.height) * @game.size
     @game.wrapper.style.width = "#{@game.canvas.width}px"
     @game.wrapper.style.height = "#{@game.canvas.height}px"
-    w = [0...@game.width]
-    h = [0...@game.height]
     j = 0
-    for i in w
-      for k in h
-        @points[j++] = [w[i],h[k]]
+    for i in [0...@game.width]
+      for k in [0...@game.height]
+        @points[j++] = [i,k]
     @game.point_size = @game.size - 2
     do @draw_ground
     log "Map #{@game.width}x#{@game.height} created!"
@@ -22,3 +20,10 @@ class Map extends GameObject
     @game.g.fillStyle = "#111"
     @game.g.fillRect 0, 0, @game.canvas.width, @game.canvas.height
     do @draw
+
+  all_free: ->
+    j = 0
+    free = []
+    for a in @points
+      free[j++] = a if @game.snake.is_free a
+    return free

@@ -6,17 +6,17 @@ var Food,
 Food = (function(_super) {
   __extends(Food, _super);
 
-  Food.prototype.color = "#7e7";
+  Food.prototype.color = "green";
 
   function Food(game) {
     this.game = game;
-    this.spawn();
+    this.respawn();
     this.draw();
   }
 
-  Food.prototype.spawn = function() {
+  Food.prototype.respawn = function() {
     var free;
-    free = intersec_arrays(this.game.map.points, this.game.snake.points, arr_comp);
+    free = this.game.map.all_free();
     if (free.length > 0) {
       this.points = [free[random_int(1, free.length - 1)]];
       return log("food at [" + this.points[0] + "]");
@@ -24,16 +24,6 @@ Food = (function(_super) {
       this.game.over = true;
       return log("game finished, snake has max size");
     }
-  };
-
-  Food.prototype.remove = function() {
-    this.draw(this.points, this.game.map.color);
-    return this.points = [];
-  };
-
-  Food.prototype.respawn = function() {
-    this.remove();
-    return this.spawn();
   };
 
   return Food;

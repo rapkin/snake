@@ -1,6 +1,6 @@
 class Snake extends GameObject
-  head_color: "#e77"
-  color: "#ccc"
+  head_color: "red"
+  color: "white"
 
   UP: 1
   RIGHT: 2
@@ -16,36 +16,36 @@ class Snake extends GameObject
       [x,y+1]
     ]
     @tail = [x-1,y+1]
-    @direction = @RIGHT
+    @direction = @UP
     do @draw
 
   move: ->
-    first = @points[0]
+    x = @points[0][0]
+    y = @points[0][1]
     switch @direction
       when @UP
-        if (first[1] > 0) then next = [first[0],first[1]-1]
-        else  next = [first[0], @game.height-1]
+        if y > 0 then next = [x,y-1]
+        else  next = [x, @game.height-1]
       when @RIGHT
-        if (first[0] < @game.width-1) then next = [first[0]+1,first[1]]
-        else  next = [0, first[1]]
+        if x < @game.width-1 then next = [x+1,y]
+        else  next = [0, y]
       when @DOWN
-        if (first[1] < @game.height-1) then next = [first[0],first[1]+1]
-        else  next = [first[0], 0]
+        if y < @game.height-1 then next = [x,y+1]
+        else  next = [x, 0]
       when @LEFT
-        if (first[0] > 0) then next = [first[0]-1,first[1]]
-        else  next = [@game.width-1, first[1]]
-    free_points = intersec_arrays @game.map.points, @points, arr_comp
-    for free in free_points
-      if next[0] is free[0] and next[1] is free[1]
-        next_is_free = yes
-    if next_is_free and next[0] is @game.food.points[0][0] and next[1] is @game.food.points[0][1]
+        if x > 0 then next = [x-1,y]
+        else  next = [@game.width-1, y]
+
+    if @is_free next
+      if next[0] is @game.food.points[0][0] and next[1] is @game.food.points[0][1] 
+        do @game.food.respawn
+        do @game.score.next
+      else @tail = do @points.pop
       @points.unshift next
-      do @game.food.respawn
-      do @game.score.next
-    else if next_is_free
-      @tail = do @points.pop
-      @points.unshift next
-    else @game.over = yes
+    else
+      @game.started = no
+      @game.over = yes
+      do @game.stop
     return
 
   turn_left: ->
@@ -56,8 +56,14 @@ class Snake extends GameObject
     if @direction < 4 then @direction++
     else @direction = @UP
 
+  is_free: (point) ->
+    for a in @points
+      if a[0] is point[0] and a[1] is point[1]
+        return no
+    return yes
+
   draw: ->
-    super [@tail], @game.map.color
     super
+    super [@tail], @game.map.color
     super [@points[0]], @head_color
     

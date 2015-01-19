@@ -6,9 +6,9 @@ var Snake,
 Snake = (function(_super) {
   __extends(Snake, _super);
 
-  Snake.prototype.head_color = "#e77";
+  Snake.prototype.head_color = "red";
 
-  Snake.prototype.color = "#ccc";
+  Snake.prototype.color = "white";
 
   Snake.prototype.UP = 1;
 
@@ -25,58 +25,55 @@ Snake = (function(_super) {
     y = Math.floor(this.game.height / 2);
     this.points = [[x, y - 1], [x, y], [x, y + 1]];
     this.tail = [x - 1, y + 1];
-    this.direction = this.RIGHT;
+    this.direction = this.UP;
     this.draw();
   }
 
   Snake.prototype.move = function() {
-    var first, free, free_points, next, next_is_free, _i, _len;
-    first = this.points[0];
+    var next, x, y;
+    x = this.points[0][0];
+    y = this.points[0][1];
     switch (this.direction) {
       case this.UP:
-        if (first[1] > 0) {
-          next = [first[0], first[1] - 1];
+        if (y > 0) {
+          next = [x, y - 1];
         } else {
-          next = [first[0], this.game.height - 1];
+          next = [x, this.game.height - 1];
         }
         break;
       case this.RIGHT:
-        if (first[0] < this.game.width - 1) {
-          next = [first[0] + 1, first[1]];
+        if (x < this.game.width - 1) {
+          next = [x + 1, y];
         } else {
-          next = [0, first[1]];
+          next = [0, y];
         }
         break;
       case this.DOWN:
-        if (first[1] < this.game.height - 1) {
-          next = [first[0], first[1] + 1];
+        if (y < this.game.height - 1) {
+          next = [x, y + 1];
         } else {
-          next = [first[0], 0];
+          next = [x, 0];
         }
         break;
       case this.LEFT:
-        if (first[0] > 0) {
-          next = [first[0] - 1, first[1]];
+        if (x > 0) {
+          next = [x - 1, y];
         } else {
-          next = [this.game.width - 1, first[1]];
+          next = [this.game.width - 1, y];
         }
     }
-    free_points = intersec_arrays(this.game.map.points, this.points, arr_comp);
-    for (_i = 0, _len = free_points.length; _i < _len; _i++) {
-      free = free_points[_i];
-      if (next[0] === free[0] && next[1] === free[1]) {
-        next_is_free = true;
+    if (this.is_free(next)) {
+      if (next[0] === this.game.food.points[0][0] && next[1] === this.game.food.points[0][1]) {
+        this.game.food.respawn();
+        this.game.score.next();
+      } else {
+        this.tail = this.points.pop();
       }
-    }
-    if (next_is_free && next[0] === this.game.food.points[0][0] && next[1] === this.game.food.points[0][1]) {
-      this.points.unshift(next);
-      this.game.food.respawn();
-      this.game.score.next();
-    } else if (next_is_free) {
-      this.tail = this.points.pop();
       this.points.unshift(next);
     } else {
+      this.game.started = false;
       this.game.over = true;
+      this.game.stop();
     }
   };
 
@@ -96,9 +93,21 @@ Snake = (function(_super) {
     }
   };
 
+  Snake.prototype.is_free = function(point) {
+    var a, _i, _len, _ref;
+    _ref = this.points;
+    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+      a = _ref[_i];
+      if (a[0] === point[0] && a[1] === point[1]) {
+        return false;
+      }
+    }
+    return true;
+  };
+
   Snake.prototype.draw = function() {
-    Snake.__super__.draw.call(this, [this.tail], this.game.map.color);
     Snake.__super__.draw.apply(this, arguments);
+    Snake.__super__.draw.call(this, [this.tail], this.game.map.color);
     return Snake.__super__.draw.call(this, [this.points[0]], this.head_color);
   };
 
