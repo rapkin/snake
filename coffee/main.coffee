@@ -3,3 +3,4 @@ window.onload = ->
   game.SPEED = 10
   do game.start
   return
+  
