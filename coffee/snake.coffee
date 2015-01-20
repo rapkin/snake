@@ -37,11 +37,11 @@ class Snake extends GameObject
         else  next = [@game.width-1, y]
 
     if @is_free next
+      @points.unshift next
       if next[0] is @game.food.points[0][0] and next[1] is @game.food.points[0][1] 
         do @game.food.respawn
         do @game.score.next
       else @tail = do @points.pop
-      @points.unshift next
     else
       @game.started = no
       @game.over = yes

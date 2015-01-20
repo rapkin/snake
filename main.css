@@ -1,6 +1,3 @@
-body {
-  background: #eee;
-}
 #game {
   border: 3px solid #111;
   border-top: 20px solid #111;
@@ -8,6 +5,9 @@ body {
   margin: 30px auto;
   position: relative;
   box-shadow: 0 0 30px #111;
+}
+#game_canvas {
+  background: #111;
 }
 #close, #full, #min {
   border: 1px solid #000;
@@ -28,26 +28,18 @@ body {
   left: 35px;
   background: yellow;
 }
-#title {
+#title, #score {
   position: absolute;
   width: 100%;
-  text-align: center;
-  z-index: 1;
-  color: #fff;
   top: -18px;
-  padding: 0;
-  margin: 0;
   font-family: Monospace;
 }
+#title {
+  text-align: center;
+  color: #fff;
+}
 #score {
-  position: absolute;
-  width: 100%;
   text-align: right;
-  z-index: 1;
   color: yellow;
-  top: -18px;
   right: 5px;
-  padding: 0;
-  margin: 0;
-  font-family: Monospace;
 }

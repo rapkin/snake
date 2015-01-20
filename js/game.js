@@ -40,7 +40,6 @@ Game = (function() {
     var key, _ref;
     e = e || window.event;
     key = e.which;
-    log(key);
     if (!this.over) {
       if (__indexOf.call(this.ESC, key) >= 0) {
         if (this.started) {

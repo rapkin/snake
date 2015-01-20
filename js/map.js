@@ -24,15 +24,9 @@ Map = (function(_super) {
       }
     }
     this.game.point_size = this.game.size - 2;
-    this.draw_ground();
+    this.draw();
     log("Map " + this.game.width + "x" + this.game.height + " created!");
   }
-
-  Map.prototype.draw_ground = function() {
-    this.game.g.fillStyle = "#111";
-    this.game.g.fillRect(0, 0, this.game.canvas.width, this.game.canvas.height);
-    return this.draw();
-  };
 
   Map.prototype.all_free = function() {
     var a, free, j, _i, _len, _ref;

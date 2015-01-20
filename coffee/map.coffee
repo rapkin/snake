@@ -13,13 +13,8 @@ class Map extends GameObject
       for k in [0...@game.height]
         @points[j++] = [i,k]
     @game.point_size = @game.size - 2
-    do @draw_ground
-    log "Map #{@game.width}x#{@game.height} created!"
-
-  draw_ground: ->
-    @game.g.fillStyle = "#111"
-    @game.g.fillRect 0, 0, @game.canvas.width, @game.canvas.height
     do @draw
+    log "Map #{@game.width}x#{@game.height} created!"
 
   all_free: ->
     j = 0

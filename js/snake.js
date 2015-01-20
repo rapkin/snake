@@ -63,13 +63,13 @@ Snake = (function(_super) {
         }
     }
     if (this.is_free(next)) {
+      this.points.unshift(next);
       if (next[0] === this.game.food.points[0][0] && next[1] === this.game.food.points[0][1]) {
         this.game.food.respawn();
         this.game.score.next();
       } else {
         this.tail = this.points.pop();
       }
-      this.points.unshift(next);
     } else {
       this.game.started = false;
       this.game.over = true;

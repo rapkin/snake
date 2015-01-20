@@ -24,7 +24,6 @@ class Game
   interupt: (e) ->
     e = e || window.event
     key = e.which
-    log key
     if not @over
       if key in @ESC 
         if @started then do @stop
