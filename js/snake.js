@@ -73,6 +73,7 @@ Snake = (function(_super) {
     } else {
       this.game.started = false;
       this.game.over = true;
+      this.game.msg.show("GAME OVER! Your score " + this.game.score.value);
       this.game.stop();
     }
   };

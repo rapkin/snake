@@ -19,7 +19,6 @@ Game = (function() {
     this.size = size != null ? size : 12;
     this.SPEED = SPEED != null ? SPEED : 5;
     this.over = false;
-    this.started = false;
     this.wrapper = $("game");
     this.canvas = $("game_canvas");
     if (this.canvas != null) {
@@ -28,12 +27,14 @@ Game = (function() {
     this.canvas = document.createElement("canvas");
     this.canvas.setAttribute("id", "game_canvas");
     this.wrapper.appendChild(this.canvas);
+    this.msg = new Message($("msg"));
     this.score = new Score(this, $("score"));
     this.map = new Map(this);
     this.snake = new Snake(this);
     this.food = new Food(this);
     window.captureEvents(Event.KEYPRESS);
     window.onkeydown = this.interupt.bind(this);
+    this.stop();
   }
 
   Game.prototype.interupt = function(e) {
@@ -44,6 +45,7 @@ Game = (function() {
       if (__indexOf.call(this.ESC, key) >= 0) {
         if (this.started) {
           this.stop();
+          this.msg.show("pres Space/Enter/Esc to start");
         } else {
           this.start();
         }
@@ -59,11 +61,9 @@ Game = (function() {
           this.SPEED++;
         }
         if (__indexOf.call(this.DOWN, key) >= 0) {
-          return this.SPEED--;
+          this.SPEED--;
         }
       }
-    } else {
-      return log("game over with score " + this.score.value);
     }
   };
 
@@ -76,6 +76,7 @@ Game = (function() {
     this.interval = setInterval(this.main_loop.bind(this), 1000 / this.SPEED / 2);
     log("speed is " + this.SPEED);
     this.started = true;
+    this.msg.hide();
   };
 
   Game.prototype.main_loop = function() {

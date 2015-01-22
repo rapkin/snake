@@ -43,3 +43,21 @@
   color: yellow;
   right: 5px;
 }
+#msg {
+  padding: 10px;
+  background: white;
+  width: 60%;
+  margin: 20%;
+  position: absolute;
+  border-radius: 5px;
+  text-align: center;
+  transition: all 0.2s ease-out;
+}
+.msg_hide {
+  bottom: 0;
+  opacity: 0;
+}
+.msg_show {
+  bottom: 10px;
+  opacity: 1;
+}

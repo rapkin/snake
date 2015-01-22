@@ -45,6 +45,7 @@ class Snake extends GameObject
     else
       @game.started = no
       @game.over = yes
+      @game.msg.show "GAME OVER! Your score #{@game.score.value}"
       do @game.stop
     return
 
