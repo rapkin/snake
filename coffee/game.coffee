@@ -5,16 +5,18 @@ class Game
   UP: [38, 87]
   DOWN: [40, 83]
 
-  constructor: (@width = 30, @height = 30, @size = 12, @SPEED = 5) ->
+  constructor: (@width = 30, @height = 30, @size = 12, speed = 5) ->
     @over = no
     @wrapper = $ "game"
     @canvas = $ "game_canvas"
+    @speed_tag = $ "speed"
     if @canvas? then do @canvas.remove
     @canvas = document.createElement "canvas"
     @canvas.setAttribute "id", "game_canvas"
     @wrapper.appendChild @canvas
     @msg = new Message $ "msg"
-    @score = new Score @, $ "score"
+    @speed = new Speed @, speed 
+    @score = new Score @
     @map = new Map @
     @snake = new Snake @
     @food = new Food @
@@ -34,9 +36,9 @@ class Game
           do @start
       if key in @LEFT then do @snake.turn_left
       if key in @RIGHT then do @snake.turn_right
-      if 1 < @SPEED < 30 and not @started
-        if key in @UP then @SPEED++
-        if key in @DOWN then @SPEED--
+      if not @started
+        if key in @UP then do @speed.up
+        if key in @DOWN then do @speed.down
     return
 
   stop: ->
@@ -45,8 +47,7 @@ class Game
     return
 
   start: ->
-    @interval = setInterval @main_loop.bind(@), 1000/@SPEED/2
-    log "speed is #{@SPEED}"
+    @interval = setInterval @main_loop.bind(@), 1000/@speed.value/2
     @started = yes
     do @msg.hide
     return

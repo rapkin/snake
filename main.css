@@ -28,7 +28,7 @@
   left: 35px;
   background: yellow;
 }
-#title, #score {
+#title, #right {
   position: absolute;
   width: 100%;
   top: -18px;
@@ -38,10 +38,18 @@
   text-align: center;
   color: #fff;
 }
-#score {
-  text-align: right;
-  color: yellow;
+#right {
   right: 5px;
+}
+#speed, #score {
+  float: right;
+  margin-left: 5px; 
+}
+#score {
+  color: green;
+}
+#speed {
+  color: yellow;
 }
 #msg {
   padding: 10px;

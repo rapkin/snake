@@ -13,14 +13,17 @@ Game = (function() {
 
   Game.prototype.DOWN = [40, 83];
 
-  function Game(width, height, size, SPEED) {
+  function Game(width, height, size, speed) {
     this.width = width != null ? width : 30;
     this.height = height != null ? height : 30;
     this.size = size != null ? size : 12;
-    this.SPEED = SPEED != null ? SPEED : 5;
+    if (speed == null) {
+      speed = 5;
+    }
     this.over = false;
     this.wrapper = $("game");
     this.canvas = $("game_canvas");
+    this.speed_tag = $("speed");
     if (this.canvas != null) {
       this.canvas.remove();
     }
@@ -28,7 +31,8 @@ Game = (function() {
     this.canvas.setAttribute("id", "game_canvas");
     this.wrapper.appendChild(this.canvas);
     this.msg = new Message($("msg"));
-    this.score = new Score(this, $("score"));
+    this.speed = new Speed(this, speed);
+    this.score = new Score(this);
     this.map = new Map(this);
     this.snake = new Snake(this);
     this.food = new Food(this);
@@ -38,7 +42,7 @@ Game = (function() {
   }
 
   Game.prototype.interupt = function(e) {
-    var key, _ref;
+    var key;
     e = e || window.event;
     key = e.which;
     if (!this.over) {
@@ -56,12 +60,12 @@ Game = (function() {
       if (__indexOf.call(this.RIGHT, key) >= 0) {
         this.snake.turn_right();
       }
-      if ((1 < (_ref = this.SPEED) && _ref < 30) && !this.started) {
+      if (!this.started) {
         if (__indexOf.call(this.UP, key) >= 0) {
-          this.SPEED++;
+          this.speed.up();
         }
         if (__indexOf.call(this.DOWN, key) >= 0) {
-          this.SPEED--;
+          this.speed.down();
         }
       }
     }
@@ -73,8 +77,7 @@ Game = (function() {
   };
 
   Game.prototype.start = function() {
-    this.interval = setInterval(this.main_loop.bind(this), 1000 / this.SPEED / 2);
-    log("speed is " + this.SPEED);
+    this.interval = setInterval(this.main_loop.bind(this), 1000 / this.speed.value / 2);
     this.started = true;
     this.msg.hide();
   };

@@ -1,9 +1,10 @@
 class Score
-  constructor: (@game, @tag) ->
+  constructor: (@game) ->
+    @tag = $ "score"
     @value = 0
     @tag.textContent = @value
 
   next: ->
-    @value += @game.SPEED
+    @value += @game.speed.value
     @tag.textContent = @value
     

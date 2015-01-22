@@ -2,15 +2,15 @@
 var Score;
 
 Score = (function() {
-  function Score(game, tag) {
+  function Score(game) {
     this.game = game;
-    this.tag = tag;
+    this.tag = $("score");
     this.value = 0;
     this.tag.textContent = this.value;
   }
 
   Score.prototype.next = function() {
-    this.value += this.game.SPEED;
+    this.value += this.game.speed.value;
     return this.tag.textContent = this.value;
   };
 
