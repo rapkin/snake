@@ -12,4 +12,4 @@ class Food extends GameObject
       log "food at [#{@points[0]}]"
     else  
       @game.over = yes
-      log "game finished, snake has max size"
+      @game.msg.show "WOW!!! snake has max size"

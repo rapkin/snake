@@ -4,27 +4,6 @@
   <title>my coffee test</title>
 </head>
 <body>
-  <div id="game">
-    <div id="close"></div>
-    <div id="full"></div>
-    <div id="min"></div>
-    <span id="title">- Snake -</span>
-    <div id="right">
-      <span id="score">0</span>
-      <span id="speed">0</span>
-    </div>
-    <span id="msg" class="msg_show">Pres ESC/Enter/Space to start</span>
-  </div>
-  <pre>
-    Move:
-     W/&#9650; - faster snake (only on pause)
-     S/&#9660; - slover snake (only on pause)
-     A/&#9664; - turn left
-     D/&#9654; - turn right
-     ESC/Enter/Space - pause/resume game
-
-     Source code on <a href="http://github.com/rapkin/snake">GitHub</a>
-  </pre>
   <script type="text/javascript" src="js/helpers.js"></script>
   <script type="text/javascript" src="js/message.js"></script>
   <script type="text/javascript" src="js/game_object.js"></script>
@@ -36,5 +15,26 @@
   <script type="text/javascript" src="js/game.js"></script>
   <script type="text/javascript" src="js/main.js"></script>
   <link rel="stylesheet" type="text/css" href="main.css">
+  <div id="game">
+    <div id="close"></div>
+    <div id="full"></div>
+    <div id="min"></div>
+    <span id="title">- Snake -</span>
+    <div id="right">
+      <span id="score">0</span>
+      <span id="speed">0</span>
+    </div>
+    <span id="msg" class="msg_hide"></span>
+  </div>
+  <pre>
+    Move:
+     W/&#9650; - faster snake (only on pause)
+     S/&#9660; - slover snake (only on pause)
+     A/&#9664; - turn left
+     D/&#9654; - turn right
+     ESC/Enter/Space - pause/resume game
+
+     Source code on <a href="http://github.com/rapkin/snake">GitHub</a>
+  </pre>
 </body>
 </html>

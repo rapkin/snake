@@ -7,19 +7,21 @@ class Game
 
   constructor: (@width = 30, @height = 30, @size = 12, speed = 5) ->
     @over = no
+
     @wrapper = $ "game"
     @canvas = $ "game_canvas"
-    @speed_tag = $ "speed"
     if @canvas? then do @canvas.remove
     @canvas = document.createElement "canvas"
     @canvas.setAttribute "id", "game_canvas"
     @wrapper.appendChild @canvas
-    @msg = new Message $ "msg"
+
+    @msg = new Message
     @speed = new Speed @, speed 
     @score = new Score @
     @map = new Map @
     @snake = new Snake @
     @food = new Food @
+    
     window.captureEvents Event.KEYPRESS
     window.onkeydown = @interupt.bind @
     do @stop
@@ -27,13 +29,12 @@ class Game
   interupt: (e) ->
     e = e || window.event
     key = e.which
-    if not @over
+    if @over
+      if key is 82 then do @new
+    else
       if key in @ESC 
-        if @started
-          do @stop
-          @msg.show "pres Space/Enter/Esc to start"
-        else
-          do @start
+        if @started then do @stop
+        else do @start
       if key in @LEFT then do @snake.turn_left
       if key in @RIGHT then do @snake.turn_right
       if not @started
@@ -42,6 +43,7 @@ class Game
     return
 
   stop: ->
+    @msg.show "Press <b>Space/Enter/Esc</b> to start"
     clearInterval @interval
     @started = no
     return
@@ -58,6 +60,6 @@ class Game
     do @food.draw
     return
 
-  new:(width, height, size) ->
+  new: (width = @width, height = @height, size = @size, speed = @speed.value) ->
     do @stop
-    @constructor width, height, size
+    @constructor width, height, size, speed

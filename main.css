@@ -59,7 +59,9 @@
   position: absolute;
   border-radius: 5px;
   text-align: center;
-  transition: all 0.2s ease-out;
+  font-family: Monospace;
+  transition: opacity 0.2s ease-out, bottom 0.3s ease-out;
+  box-shadow: 0 0 30px #111;
 }
 .msg_hide {
   bottom: 0;

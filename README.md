@@ -1,4 +1,4 @@
-snake
+Snake
 ======
 [Demo](http://rapkin.com.ua/snake)
 

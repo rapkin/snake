@@ -23,14 +23,13 @@ Game = (function() {
     this.over = false;
     this.wrapper = $("game");
     this.canvas = $("game_canvas");
-    this.speed_tag = $("speed");
     if (this.canvas != null) {
       this.canvas.remove();
     }
     this.canvas = document.createElement("canvas");
     this.canvas.setAttribute("id", "game_canvas");
     this.wrapper.appendChild(this.canvas);
-    this.msg = new Message($("msg"));
+    this.msg = new Message;
     this.speed = new Speed(this, speed);
     this.score = new Score(this);
     this.map = new Map(this);
@@ -45,11 +44,14 @@ Game = (function() {
     var key;
     e = e || window.event;
     key = e.which;
-    if (!this.over) {
+    if (this.over) {
+      if (key === 82) {
+        this["new"]();
+      }
+    } else {
       if (__indexOf.call(this.ESC, key) >= 0) {
         if (this.started) {
           this.stop();
-          this.msg.show("pres Space/Enter/Esc to start");
         } else {
           this.start();
         }
@@ -72,6 +74,7 @@ Game = (function() {
   };
 
   Game.prototype.stop = function() {
+    this.msg.show("Press <b>Space/Enter/Esc</b> to start");
     clearInterval(this.interval);
     this.started = false;
   };
@@ -88,9 +91,21 @@ Game = (function() {
     this.food.draw();
   };
 
-  Game.prototype["new"] = function(width, height, size) {
+  Game.prototype["new"] = function(width, height, size, speed) {
+    if (width == null) {
+      width = this.width;
+    }
+    if (height == null) {
+      height = this.height;
+    }
+    if (size == null) {
+      size = this.size;
+    }
+    if (speed == null) {
+      speed = this.speed.value;
+    }
     this.stop();
-    return this.constructor(width, height, size);
+    return this.constructor(width, height, size, speed);
   };
 
   return Game;

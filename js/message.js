@@ -2,13 +2,13 @@
 var Message;
 
 Message = (function() {
-  function Message(tag) {
-    this.tag = tag;
+  function Message() {
+    this.tag = $("msg");
   }
 
   Message.prototype.show = function(text) {
     this.text = text;
-    this.tag.textContent = this.text;
+    this.tag.innerHTML = this.text;
     this.hide();
     return this.tag.setAttribute("class", "msg_show");
   };

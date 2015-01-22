@@ -22,7 +22,7 @@ Food = (function(_super) {
       return log("food at [" + this.points[0] + "]");
     } else {
       this.game.over = true;
-      return log("game finished, snake has max size");
+      return this.game.msg.show("WOW!!! snake has max size");
     }
   };
 

@@ -1,8 +1,9 @@
 class Message
-  constructor: (@tag) ->
+  constructor: ->
+    @tag = $ "msg"
 
   show: (@text) ->
-    @tag.textContent = @text
+    @tag.innerHTML = @text
     do @hide
     @tag.setAttribute "class", "msg_show"
 
