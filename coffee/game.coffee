@@ -32,14 +32,14 @@ class Game
     if @over
       if key is 82 then do @new
     else
-      if key in @ESC 
-        if @started then do @stop
-        else do @start
-      if key in @LEFT then do @snake.turn_left
-      if key in @RIGHT then do @snake.turn_right
-      if not @started
+      if @started
+        if key in @LEFT then do @snake.turn_left
+        if key in @RIGHT then do @snake.turn_right
+        if key in @ESC then do @stop
+      else
         if key in @UP then do @speed.up
         if key in @DOWN then do @speed.down
+        if key in @ESC then do @start
     return
 
   stop: ->

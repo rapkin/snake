@@ -49,25 +49,25 @@ Game = (function() {
         this["new"]();
       }
     } else {
-      if (__indexOf.call(this.ESC, key) >= 0) {
-        if (this.started) {
-          this.stop();
-        } else {
-          this.start();
+      if (this.started) {
+        if (__indexOf.call(this.LEFT, key) >= 0) {
+          this.snake.turn_left();
         }
-      }
-      if (__indexOf.call(this.LEFT, key) >= 0) {
-        this.snake.turn_left();
-      }
-      if (__indexOf.call(this.RIGHT, key) >= 0) {
-        this.snake.turn_right();
-      }
-      if (!this.started) {
+        if (__indexOf.call(this.RIGHT, key) >= 0) {
+          this.snake.turn_right();
+        }
+        if (__indexOf.call(this.ESC, key) >= 0) {
+          this.stop();
+        }
+      } else {
         if (__indexOf.call(this.UP, key) >= 0) {
           this.speed.up();
         }
         if (__indexOf.call(this.DOWN, key) >= 0) {
           this.speed.down();
+        }
+        if (__indexOf.call(this.ESC, key) >= 0) {
+          this.start();
         }
       }
     }
