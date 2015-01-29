@@ -25,12 +25,14 @@ Snake = (function(_super) {
     y = Math.floor(this.game.height / 2);
     this.points = [[x, y - 1], [x, y], [x, y + 1]];
     this.tail = [x - 1, y + 1];
+    this.stack = [];
     this.direction = this.UP;
     this.draw();
   }
 
   Snake.prototype.move = function() {
     var next, x, y;
+    this.turn();
     x = this.points[0][0];
     y = this.points[0][1];
     switch (this.direction) {
@@ -62,7 +64,7 @@ Snake = (function(_super) {
           next = [this.game.width - 1, y];
         }
     }
-    if (this.is_free(next)) {
+    if (this.is_free(next) || this.is_tail(next)) {
       this.points.unshift(next);
       if (next[0] === this.game.food.points[0][0] && next[1] === this.game.food.points[0][1]) {
         this.game.food.respawn();
@@ -78,20 +80,34 @@ Snake = (function(_super) {
     }
   };
 
-  Snake.prototype.turn_left = function() {
-    if (this.direction > 1) {
-      return this.direction--;
-    } else {
-      return this.direction = this.LEFT;
+  Snake.prototype.turn = function() {
+    var turn;
+    if (this.stack[0]) {
+      turn = this.stack.shift();
+      if (turn === 'r') {
+        if (this.direction < 4) {
+          return this.direction++;
+        } else {
+          return this.direction = this.UP;
+        }
+      } else if (turn === 'l') {
+        if (this.direction > 1) {
+          return this.direction--;
+        } else {
+          return this.direction = this.LEFT;
+        }
+      } else {
+        return log("turn failed");
+      }
     }
   };
 
+  Snake.prototype.turn_left = function() {
+    return this.stack.push('l');
+  };
+
   Snake.prototype.turn_right = function() {
-    if (this.direction < 4) {
-      return this.direction++;
-    } else {
-      return this.direction = this.UP;
-    }
+    return this.stack.push('r');
   };
 
   Snake.prototype.is_free = function(point) {
@@ -99,11 +115,21 @@ Snake = (function(_super) {
     _ref = this.points;
     for (_i = 0, _len = _ref.length; _i < _len; _i++) {
       a = _ref[_i];
-      if (a[0] === point[0] && a[1] === point[1]) {
+      if (point[0] === a[0] && point[1] === a[1]) {
         return false;
       }
     }
     return true;
+  };
+
+  Snake.prototype.is_tail = function(point) {
+    var tail;
+    tail = this.points[this.points.length - 1];
+    if (point[0] === tail[0] && point[1] === tail[1]) {
+      return true;
+    } else {
+      return false;
+    }
   };
 
   Snake.prototype.draw = function() {

@@ -23,10 +23,10 @@ class Game
     @food = new Food @
     
     window.captureEvents Event.KEYPRESS
-    window.onkeydown = @interupt.bind @
+    window.onkeydown = @interupt
     do @stop
 
-  interupt: (e) ->
+  interupt: (e) =>
     e = e || window.event
     key = e.which
     if @over
