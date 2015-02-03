@@ -1,0 +1,26 @@
+{
+  "name": "snake",
+  "version": "0.1.3",
+  "description": "game on coffee-script",
+  "main": "index.html",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rapkin/snake.git"
+  },
+  "keywords": [
+    "snake",
+    "game",
+    "coffee-script game"
+  ],
+  "author": "Mikola Parfenyuck",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/rapkin/snake/issues"
+  },
+  "homepage": "https://github.com/rapkin/snake",
+  "devDependencies": {
+    "coffee-script": "~1.6.3",
+    "grunt-contrib-coffee": "~0.4.0",
+    "grunt-contrib-watch": "~0.4.0",
+    "grunt-contrib-uglify": "~0.7.0"
+  }}
