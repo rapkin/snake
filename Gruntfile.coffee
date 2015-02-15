@@ -35,6 +35,11 @@ module.exports = (grunt) ->
         dest: 'snake.js'
 
     watch:
+      web:
+        files: ['main.css', 'index.html']
+        options:
+          livereload: true
+          
       coffee:
         files: '<%= coffee.compile.src %>'
         tasks: ['coffee']

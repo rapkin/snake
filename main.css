@@ -1,3 +1,8 @@
+h4 {
+  margin-left: 40px;
+  font-weight: 400;
+  font-family: Helvetica, Arial, sans-serif;
+}
 #game {
   border: 3px solid #111;
   border-top: 20px solid #111;
@@ -21,11 +26,11 @@
   z-index: 2;
 }
 #full {
-  left: 20px;
+  left: 35px;
   background: green;
 }
 #min {
-  left: 35px;
+  left: 20px;
   background: yellow;
 }
 #title, #right {
