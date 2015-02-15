@@ -15,19 +15,19 @@ for file, i in coffee_files
   coffee_files[i] = "coffee/#{file}.coffee"
 
 module.exports = (grunt) ->
+  require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks)
   require('time-grunt') grunt
-  
+
   grunt.initConfig
     pkg: grunt.file.readJSON 'package.json'
 
     coffee:
       compile:
+        src: coffee_files
+        dest: 'snake.js'
         options:
           join: true
           bare: true
-
-        files:
-          'snake.js': coffee_files
 
     uglify:
       build:
@@ -35,16 +35,37 @@ module.exports = (grunt) ->
         dest: 'snake.js'
 
     watch:
-      scripts:
-        files: ['coffee/*.coffee']
+      coffee:
+        files: '<%= coffee.compile.src %>'
         tasks: ['coffee']
         options:
-          spawn: false
+          livereload: true
 
-  grunt.loadNpmTasks 'grunt-contrib-coffee'
-  grunt.loadNpmTasks 'grunt-contrib-watch'
-  grunt.loadNpmTasks 'grunt-contrib-uglify'
+    connect:
+      default:
+        options:
+          port: 4242
+          hostname: 'localhost'
+          keepalive: true
 
-  grunt.registerTask 'default', ['coffee', 'uglify']
-  grunt.registerTask 'dev', ['coffee','watch']
+      dev:
+        options:
+          port: 4242
+          hostname: 'localhost'
+
+    open:
+      all:
+        path: 'http://localhost:<%= connect.default.options.port%>'
+
+    notify_hooks:
+      options:
+        enabled: true
+        max_jshint_notifications: 5
+        title: "Snake"
+        success: true
+        duration: 1
+
+  grunt.registerTask 'default', ['coffee', 'uglify', 'open', 'connect:default']
+  grunt.registerTask 'dev', ['connect:dev', 'coffee', 'open', 'watch']
+  grunt.task.run 'notify_hooks'
   
