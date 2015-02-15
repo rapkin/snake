@@ -15,6 +15,8 @@ for file, i in coffee_files
   coffee_files[i] = "coffee/#{file}.coffee"
 
 module.exports = (grunt) ->
+  require('time-grunt') grunt
+  
   grunt.initConfig
     pkg: grunt.file.readJSON 'package.json'
 
