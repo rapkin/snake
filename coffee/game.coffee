@@ -25,6 +25,8 @@ class Game
     window.captureEvents Event.KEYPRESS
     window.onkeydown = @interupt
     do @stop
+    do @snake.draw
+    return
 
   interupt: (e) =>
     e = e || window.event
@@ -57,9 +59,9 @@ class Game
   main_loop: ->
     do @snake.move
     do @snake.draw
-    do @food.draw
     return
 
   new: (width = @width, height = @height, size = @size, speed = @speed.value) ->
     do @stop
     @constructor width, height, size, speed
+    return

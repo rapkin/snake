@@ -3,6 +3,9 @@ h4 {
   font-weight: 400;
   font-family: Helvetica, Arial, sans-serif;
 }
+body {
+  font-family: monospace;
+}
 #game {
   border: 3px solid #111;
   border-top: 20px solid #111;
@@ -37,7 +40,6 @@ h4 {
   position: absolute;
   width: 100%;
   top: -18px;
-  font-family: Monospace;
 }
 #title {
   text-align: center;
@@ -58,13 +60,14 @@ h4 {
 }
 #msg {
   padding: 10px;
-  background: white;
+  background: rgba(0,0,0,.85);
+  color: white;
   width: 60%;
   margin: 20%;
+  margin-bottom: 50px;
   position: absolute;
   border-radius: 5px;
   text-align: center;
-  font-family: Monospace;
   transition: opacity 0.2s ease-out, bottom 0.3s ease-out;
   box-shadow: 0 0 30px #111;
 }

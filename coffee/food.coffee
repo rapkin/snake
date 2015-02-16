@@ -3,13 +3,15 @@ class Food extends GameObject
 
   constructor: (@game) ->
     do @respawn
-    do @draw
+    return
 
   respawn: ->
     free = do @game.map.all_free
-    if free.length > 0
+    if free.length > 1
       @points = [free[random_int 1, free.length-1]]
       log "food at [#{@points[0]}]"
     else  
+      do @game.stop
       @game.over = yes
-      @game.msg.show "WOW!!! snake has max size"
+      @game.msg.show "WOOOOOW!!!<br>Snake has max size"
+    return

@@ -18,7 +18,7 @@ class Snake extends GameObject
     @tail = [x-1,y+1]
     @stack = []
     @direction = @UP
-    do @draw
+    return
 
   move: ->
     do @turn
@@ -39,7 +39,7 @@ class Snake extends GameObject
         if x > 0 then next = [x-1,y]
         else  next = [@game.width-1, y]
 
-    if @is_free(next) or @is_tail(next)
+    if @is_free(next)
       @points.unshift next
       if next[0] is @game.food.points[0][0] and next[1] is @game.food.points[0][1] 
         do @game.food.respawn
@@ -61,26 +61,27 @@ class Snake extends GameObject
       else if turn is 'l'
         if @direction > 1 then @direction--
         else @direction = @LEFT
-      else log "turn failed"
+    return
 
   turn_left: ->
     @stack.push 'l'
+    return
 
   turn_right: ->
     @stack.push 'r'
+    return
 
   is_free: (point) ->
+    tail = @points[@points.length-1]
+    if point[0] is tail[0] and point[1] is tail[1] then return yes
     for a in @points
       if point[0] is a[0] and point[1] is a[1] then return no
     return yes
 
-  is_tail: (point) ->
-    tail = @points[@points.length-1]
-    if point[0] is tail[0] and point[1] is tail[1] then return yes
-    else return no
-
   draw: ->
     super
     super [@tail], @game.map.color
+    do @game.food.draw
     super [@points[0]], @head_color
+    return
     

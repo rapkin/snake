@@ -15,10 +15,12 @@ class Map extends GameObject
     @game.point_size = @game.size - 2
     do @draw
     log "Map #{@game.width}x#{@game.height} created!"
+    return
 
   all_free: ->
     j = 0
     free = []
     for a in @points
       free[j++] = a if @game.snake.is_free a
+    log free.length
     return free
