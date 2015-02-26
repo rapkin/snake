@@ -58,18 +58,21 @@ body {
 #speed {
   color: yellow;
 }
-#msg {
+#msg_top, #msg_bottom {
   padding: 10px;
   background: rgba(0,0,0,.85);
   color: white;
   width: 60%;
   margin: 20%;
-  margin-bottom: 50px;
+  margin-bottom: 10%;
   position: absolute;
   border-radius: 5px;
   text-align: center;
   transition: opacity 0.2s ease-out, bottom 0.3s ease-out;
   box-shadow: 0 0 30px #111;
+}
+#msg_top {
+  margin-bottom: 30%;
 }
 .msg_hide {
   bottom: 0;

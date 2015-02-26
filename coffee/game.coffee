@@ -18,7 +18,8 @@ class Game
     @canvas.setAttribute "id", "game_canvas"
     @wrapper.appendChild @canvas
 
-    @msg = new Message
+    @msg_top = new Message $ "msg_top"
+    @msg_bottom = new Message $ "msg_bottom"
     @speed = new Speed @, speed 
     @score = new Score @
     @map = new Map @
@@ -38,6 +39,7 @@ class Game
     if @over
       if key is 82 then do @new
     else
+      if key in @LAYOUT then do @switch_layout
       if @started
         if @layout is @left_right
           if key in @LEFT then @snake.turn 'l'
@@ -50,7 +52,6 @@ class Game
           if key in @DOWN then @snake.try 'd'
 
         if key in @ESC then do @stop
-        if key in @LAYOUT then do @switch_layout
 
       else
         if key in @UP then do @speed.up
@@ -60,24 +61,26 @@ class Game
 
   switch_layout: ->
     if @layout is @left_right
+      @msg_top.show "Layout switched to &#9650;&#9654;&#9660;&#9664;", 1,3
       @layout = @up_right_down_left
     else if @layout is @up_right_down_left
+      @msg_top.show "Layout switched to &#9664;&#9654;", 1,3
       @layout = @left_right
     return
 
   stop: ->
-    @msg.show "Press <b>Space/Enter/Esc</b> to start"
+    @msg_bottom.show "Press <b>Space/Enter/Esc</b> to start"
     clearInterval @interval
     @started = no
     return
 
   start: ->
-    @interval = setInterval @main_loop.bind(@), 1000/@speed.value/2
+    @interval = setInterval @main_loop, 1000/@speed.value/2
     @started = yes
-    do @msg.hide
+    do @msg_bottom.hide
     return
 
-  main_loop: ->
+  main_loop: =>
     do @snake.move
     do @snake.draw
     return

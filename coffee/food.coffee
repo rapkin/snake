@@ -13,5 +13,5 @@ class Food extends GameObject
     else  
       do @game.stop
       @game.over = yes
-      @game.msg.show "WOOOOOW!!!<br>Snake has max size"
+      @game.msg_bottom.show "WOOOOOW!!!<br>Snake has max size"
     return

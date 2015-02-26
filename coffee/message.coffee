@@ -1,14 +1,15 @@
 class Message
-  constructor: ->
-    @tag = $ "msg"
-    return
+  constructor: (@tag) ->
 
-  show: (@text) ->
+  show: (@text, timeout = false) ->
     @tag.innerHTML = @text
     do @hide
     @tag.setAttribute "class", "msg_show"
+    if timeout
+      @last_time = setTimeout @hide, 1000*timeout
     return
 
-  hide: ->
+  hide: =>
+    clearTimeout @last_time
     @tag.setAttribute "class", "msg_hide"
     return

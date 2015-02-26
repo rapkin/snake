@@ -5,6 +5,7 @@ class Speed
     return
 
   show: ->
+    @game.msg_top.show "Speed is #{@value}", 1,3
     @tag.textContent = @value
     return
 
