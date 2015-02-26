@@ -21,7 +21,7 @@ class Snake extends GameObject
     return
 
   move: ->
-    do @turn
+    do @step
     x = @points[0][0]
     y = @points[0][1]
     
@@ -52,7 +52,7 @@ class Snake extends GameObject
       @game.msg.show "GAME OVER! Your score <b>#{@game.score.value}</b>.<br>Press <b>R</b> to restart"
     return
 
-  turn: ->
+  step: ->
     if @stack[0]
       turn = @stack.shift()
       if turn is 'r'
@@ -63,12 +63,24 @@ class Snake extends GameObject
         else @direction = @LEFT
     return
 
-  turn_left: ->
-    @stack.push 'l'
+  turn: (dir = 'l') ->
+    @stack.push dir
     return
 
-  turn_right: ->
-    @stack.push 'r'
+  try: (dir = 'l') ->
+    switch dir
+      when 'l'
+        if @direction is @UP then @turn 'l'
+        if @direction is @DOWN then @turn 'r'
+      when 'r'
+        if @direction is @UP then @turn 'r'
+        if @direction is @DOWN then @turn 'l'
+      when 'u'
+        if @direction is @LEFT then @turn 'r'
+        if @direction is @RIGHT then @turn 'l'
+      when 'd'
+        if @direction is @LEFT then @turn 'l'
+        if @direction is @RIGHT then @turn 'r'
     return
 
   is_free: (point) ->

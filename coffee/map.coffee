@@ -22,5 +22,4 @@ class Map extends GameObject
     free = []
     for a in @points
       free[j++] = a if @game.snake.is_free a
-    log free.length
     return free

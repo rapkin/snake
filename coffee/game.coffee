@@ -1,11 +1,14 @@
 class Game
   ESC: [27, 13, 32]
+  LAYOUT: [76]
   LEFT: [37, 65]
   RIGHT: [39, 68]
   UP: [38, 87]
   DOWN: [40, 83]
+  left_right: 1
+  up_right_down_left: 2
 
-  constructor: (@width = 30, @height = 30, @size = 12, speed = 5) ->
+  constructor: (@width = 30, @height = 30, @size = 12, speed = 5, layout = @left_right) ->
     @over = no
 
     @wrapper = $ "game"
@@ -21,6 +24,7 @@ class Game
     @map = new Map @
     @snake = new Snake @
     @food = new Food @
+    @layout = layout
     
     window.captureEvents Event.KEYPRESS
     window.onkeydown = @interupt
@@ -35,13 +39,30 @@ class Game
       if key is 82 then do @new
     else
       if @started
-        if key in @LEFT then do @snake.turn_left
-        if key in @RIGHT then do @snake.turn_right
+        if @layout is @left_right
+          if key in @LEFT then @snake.turn 'l'
+          if key in @RIGHT then @snake.turn 'r'
+
+        else if @layout is @up_right_down_left
+          if key in @LEFT then @snake.try 'l'
+          if key in @RIGHT then @snake.try 'r'
+          if key in @UP then @snake.try 'u'
+          if key in @DOWN then @snake.try 'd'
+
         if key in @ESC then do @stop
+        if key in @LAYOUT then do @switch_layout
+
       else
         if key in @UP then do @speed.up
         if key in @DOWN then do @speed.down
         if key in @ESC then do @start
+    return
+
+  switch_layout: ->
+    if @layout is @left_right
+      @layout = @up_right_down_left
+    else if @layout is @up_right_down_left
+      @layout = @left_right
     return
 
   stop: ->
@@ -61,7 +82,7 @@ class Game
     do @snake.draw
     return
 
-  new: (width = @width, height = @height, size = @size, speed = @speed.value) ->
+  new: (width = @width, height = @height, size = @size, speed = @speed.value, layout = @layout) ->
     do @stop
-    @constructor width, height, size, speed
+    @constructor width, height, size, speed, layout
     return
