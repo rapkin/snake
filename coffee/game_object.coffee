@@ -1,10 +1,9 @@
 class GameObject
   points: []
-  color: "#fff"
+  color: '#fff'
   
   draw: (points = @points, color = @color) ->
     @game.g.fillStyle = color
-    for point in points
-      @game.g.fillRect point[0]*@game.size+1, point[1]*@game.size+1, @game.point_size, @game.point_size
+    for p in points
+      @game.g.fillRect p[0]*@game.size+1, p[1]*@game.size+1, @game.point_size, @game.point_size
     return
-    

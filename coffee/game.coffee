@@ -11,16 +11,16 @@ class Game
   constructor: (@width = 30, @height = 30, @size = 12, speed = 5, layout = @left_right) ->
     @over = no
 
-    @wrapper = $ "game"
-    @canvas = $ "game_canvas"
+    @wrapper = $ 'game'
+    @canvas = $ 'game_canvas'
     if @canvas? then do @canvas.remove
-    @canvas = document.createElement "canvas"
-    @canvas.setAttribute "id", "game_canvas"
+    @canvas = document.createElement 'canvas'
+    @canvas.setAttribute 'id', 'game_canvas'
     @wrapper.appendChild @canvas
 
-    @msg_top = new Message $ "msg_top"
-    @msg_bottom = new Message $ "msg_bottom"
-    @speed = new Speed @, speed 
+    @msg_top = new Message $ 'msg_top'
+    @msg_bottom = new Message $ 'msg_bottom'
+    @speed = new Speed @, speed
     @score = new Score @
     @map = new Map @
     @snake = new Snake @
@@ -34,7 +34,7 @@ class Game
     return
 
   interupt: (e) =>
-    e = e || window.event
+    e = e or window.event
     key = e.which
     if @over
       if key is 82 then do @new
@@ -61,15 +61,15 @@ class Game
 
   switch_layout: ->
     if @layout is @left_right
-      @msg_top.show "Layout switched to &#9650;&#9654;&#9660;&#9664;", 1,3
+      @msg_top.show 'Layout switched to &#9650;&#9654;&#9660;&#9664;', 1.3
       @layout = @up_right_down_left
     else if @layout is @up_right_down_left
-      @msg_top.show "Layout switched to &#9664;&#9654;", 1,3
+      @msg_top.show 'Layout switched to &#9664;&#9654;', 1.3
       @layout = @left_right
     return
 
   stop: ->
-    @msg_bottom.show "Press <b>Space/Enter/Esc</b> to start"
+    @msg_bottom.show 'Press <b>Space/Enter/Esc</b> to start'
     clearInterval @interval
     @started = no
     return

@@ -1,0 +1,25 @@
+doctype html
+html
+  head
+    title Snake on CoffeeScript
+
+body
+  script(src="#{game_file}")
+  link(rel="stylesheet" type="text/css" href="main.css")
+
+  include game.jade
+  script
+    :coffee
+      window.game = new Game 25, 15, 20, 6
+
+  pre.
+    Move:
+     W/&#9650; - faster snake (only on pause)
+     S/&#9660; - slover snake (only on pause)
+     A/&#9664; - turn left
+     D/&#9654; - turn right
+     L - switch layout type (&#9664;&#9654; or &#9650;&#9654;&#9660;&#9664;)
+     ESC/Enter/Space - pause/resume game
+
+  h4 Source code on 
+    a(href="http://github.com/rapkin/snake") GitHub (rapkin/snake)

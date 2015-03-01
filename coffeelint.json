@@ -1,0 +1,52 @@
+{
+  "max_line_length": {
+    "value": 100
+  },
+  "spacing_after_comma": {
+    "level": "warn"
+  },
+  "line_endings": {
+    "level": "error",
+    "value": "unix"
+  },
+  "no_empty_param_list": {
+    "level": "error"
+  },
+  "arrow_spacing": {
+    "level": "error"
+  },
+  "camel_case_classes": {
+    "level": "error"
+  },
+  "indentation": {
+    "level": "error",
+    "value": 2
+  },
+  "missing_fat_arrows": {
+    "level": "error"
+  },
+  "newlines_after_classes": {
+    "level": "error"
+  },
+  "no_backticks": {
+    "level": "error"
+  },
+  "no_interpolation_in_single_quotes": {
+    "level": "error"
+  },
+  "no_plusplus": {
+    "level": "error"
+  },
+  "no_tabs": {
+    "level": "error"
+  },
+  "no_unnecessary_double_quotes": {
+    "level": "error"
+  },
+  "prefer_english_operator": {
+    "level": "error"
+  },
+  "no_unnecessary_double_quotes": {
+    "level": "error"
+  }
+}

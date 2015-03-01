@@ -1,6 +1,6 @@
 class Snake extends GameObject
-  head_color: "red"
-  color: "white"
+  head_color: 'red'
+  color: 'white'
 
   UP: 1
   RIGHT: 2
@@ -11,11 +11,11 @@ class Snake extends GameObject
     x = Math.floor @game.width/2
     y = Math.floor @game.height/2
     @points = [
-      [x,y-1],
-      [x,y],
-      [x,y+1]
+      [x, y-1],
+      [x, y],
+      [x, y+1]
     ]
-    @tail = [x-1,y+1]
+    @tail = [x-1, y+1]
     @stack = []
     @direction = @UP
     return
@@ -27,21 +27,21 @@ class Snake extends GameObject
     
     switch @direction
       when @UP
-        if y > 0 then next = [x,y-1]
+        if y > 0 then next = [x, y-1]
         else  next = [x, @game.height-1]
       when @RIGHT
-        if x < @game.width-1 then next = [x+1,y]
+        if x < @game.width-1 then next = [x+1, y]
         else  next = [0, y]
       when @DOWN
-        if y < @game.height-1 then next = [x,y+1]
+        if y < @game.height-1 then next = [x, y+1]
         else  next = [x, 0]
       when @LEFT
-        if x > 0 then next = [x-1,y]
+        if x > 0 then next = [x-1, y]
         else  next = [@game.width-1, y]
 
     if @is_free(next)
       @points.unshift next
-      if next[0] is @game.food.points[0][0] and next[1] is @game.food.points[0][1] 
+      if next[0] is @game.food.points[0][0] and next[1] is @game.food.points[0][1]
         do @game.food.respawn
         do @game.score.next
       else @tail = do @points.pop
@@ -49,17 +49,18 @@ class Snake extends GameObject
       @game.started = no
       @game.over = yes
       do @game.stop
-      @game.msg_bottom.show "GAME OVER! Your score <b>#{@game.score.value}</b>.<br>Press <b>R</b> to restart"
+      @game.msg_bottom.show "GAME OVER! Your score <b>#{@game.score.value}</b>.
+          <br>Press <b>R</b> to restart"
     return
 
   step: ->
     if @stack[0]
       turn = @stack.shift()
       if turn is 'r'
-        if @direction < 4 then @direction++
+        if @direction < 4 then @direction+=1
         else @direction = @UP
       else if turn is 'l'
-        if @direction > 1 then @direction--
+        if @direction > 1 then @direction-=1
         else @direction = @LEFT
     return
 

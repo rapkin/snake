@@ -1,6 +1,6 @@
 class Score
   constructor: (@game) ->
-    @tag = $ "score"
+    @tag = $ 'score'
     @value = 0
     @tag.textContent = @value
 
