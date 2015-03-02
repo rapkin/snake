@@ -13,7 +13,7 @@ class Game
 
     @wrapper = $ 'game'
     @canvas = $ 'game_canvas'
-    if @canvas? then do @canvas.remove
+    do @canvas.remove if @canvas?
     @canvas = document.createElement 'canvas'
     @canvas.setAttribute 'id', 'game_canvas'
     @wrapper.appendChild @canvas
@@ -61,10 +61,10 @@ class Game
 
   switch_layout: ->
     if @layout is @left_right
-      @msg_top.show 'Layout switched to &#9650;&#9654;&#9660;&#9664;', 1.3
+      @msg_top.show 'Layout switched to &#9650;&#9654;&#9660;&#9664;', 1.1
       @layout = @up_right_down_left
     else if @layout is @up_right_down_left
-      @msg_top.show 'Layout switched to &#9664;&#9654;', 1.3
+      @msg_top.show 'Layout switched to &#9664;&#9654;', 1.1
       @layout = @left_right
     return
 

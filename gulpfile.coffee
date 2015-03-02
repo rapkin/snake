@@ -1,33 +1,19 @@
-gulp = require 'gulp'
-gulpsync = require('gulp-sync')(gulp)
-plumber = require 'gulp-plumber'
+autoprefixer = require 'gulp-autoprefixer'
 coffee = require 'gulp-coffee'
 coffeelint = require 'gulp-coffeelint'
-notify = require 'gulp-notify'
-jade = require 'gulp-jade'
-minifyCSS = require 'gulp-minify-css'
 concat = require 'gulp-concat'
-uglify = require 'gulp-uglify'
-rename = require 'gulp-rename'
-livereload = require 'gulp-livereload'
 connect = require 'gulp-connect'
+gulp = require 'gulp'
+gulpsync = require('gulp-sync')(gulp)
 gutil = require 'gulp-util'
+jade = require 'gulp-jade'
+livereload = require 'gulp-livereload'
+minifyCSS = require 'gulp-minify-css'
+notify = require 'gulp-notify'
 open = require 'gulp-open'
-
-
-js_files = [
-  'helpers'
-  'game_object'
-  'map'
-  'food'
-  'snake'
-  'message'
-  'score'
-  'speed'
-  'game'
-]
-for file, i in js_files
-  js_files[i] = "js/#{file}.js"
+plumber = require 'gulp-plumber'
+rename = require 'gulp-rename'
+uglify = require 'gulp-uglify'
 
 game_file = 'game.js'
 gulp.task 'set_prod', ->
@@ -62,7 +48,7 @@ gulp.task 'jade', ->
     .pipe livereload()
 
 gulp.task 'concat', ->
-  gulp.src js_files
+  gulp.src ['js/game_object.js', 'js/*.js']
     .pipe concat 'game.js'
     .pipe gulp.dest 'dist'
     .pipe livereload()
@@ -85,6 +71,7 @@ gulp.task 'uglify', ->
 
 gulp.task 'css', ->
   gulp.src 'css/main.css'
+    .pipe autoprefixer 'last 15 version'
     .pipe minifyCSS()
     .pipe gulp.dest 'dist'
     .pipe livereload()
