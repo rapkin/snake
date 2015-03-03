@@ -89,6 +89,8 @@ class Snake extends GameObject
     if point[0] is tail[0] and point[1] is tail[1] then return yes
     for a in @points
       if point[0] is a[0] and point[1] is a[1] then return no
+    for b in @game.barrier.points
+      if point[0] is b[0] and point[1] is b[1] then return no
     return yes
 
   draw: ->

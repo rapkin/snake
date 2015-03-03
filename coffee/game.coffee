@@ -23,6 +23,7 @@ class Game
     @speed = new Speed @, speed
     @score = new Score @
     @map = new Map @
+    @barrier = new Barrier @
     @snake = new Snake @
     @food = new Food @
     @layout = layout
