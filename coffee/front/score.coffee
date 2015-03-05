@@ -7,4 +7,3 @@ class Score
   next: ->
     @value += @game.speed.value
     @tag.textContent = @value
-    

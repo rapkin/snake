@@ -99,4 +99,3 @@ class Snake extends GameObject
     do @game.food.draw
     super [@points[0]], @head_color
     return
-    

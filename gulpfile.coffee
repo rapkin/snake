@@ -3,11 +3,13 @@ coffee = require 'gulp-coffee'
 coffeelint = require 'gulp-coffeelint'
 concat = require 'gulp-concat'
 connect = require 'gulp-connect'
+fs = require 'fs'
 gulp = require 'gulp'
 gulpsync = require('gulp-sync')(gulp)
 gutil = require 'gulp-util'
 jade = require 'gulp-jade'
 livereload = require 'gulp-livereload'
+make_barrier = require './coffee/make_barrier'
 minifyCSS = require 'gulp-minify-css'
 notify = require 'gulp-notify'
 open = require 'gulp-open'
@@ -20,7 +22,7 @@ gulp.task 'set_prod', ->
   game_file = 'game.min.js'
 
 gulp.task 'lint', ->
-  gulp.src ['coffee/*.coffee', 'gulpfile.coffee']
+  gulp.src ['coffee/make_barrier.coffee', 'coffee/front/*.coffee', 'gulpfile.coffee']
     .pipe coffeelint()
     .pipe coffeelint.reporter()
     .pipe notify (file) ->
@@ -33,17 +35,22 @@ gulp.task 'coffee', ->
       gutil.beep()
       gutil.log "Coffee compile error: #{error.name} (#{error.message})"
 
-  gulp.src 'coffee/*.coffee'
+  gulp.src 'coffee/front/*.coffee'
     .pipe plumber()
     .pipe coffeeStream
     .pipe gulp.dest 'js'
 
 gulp.task 'jade', ->
+  lvl = JSON.parse fs.readFileSync './res/lvl_1.json', 'utf-8'
   gulp.src 'jade/index.jade'
     .pipe jade
-      pretty: true,
+      pretty: true
       locals:
         game_file: game_file
+        barrier: make_barrier lvl.barrier
+        width: lvl.width
+        height: lvl.height
+
     .pipe gulp.dest 'dist'
     .pipe livereload()
 
@@ -78,8 +85,9 @@ gulp.task 'css', ->
 
 gulp.task 'watch', ->
   livereload.listen()
-  gulp.watch 'coffee/*.coffee', ['recompile']
-  gulp.watch 'jade/*.jade', ['jade']
+  gulp.watch 'coffee/front/*.coffee', ['recompile']
+  gulp.watch 'coffee/make_barrier.coffee', ['lint']
+  gulp.watch ['jade/*.jade', 'res/*.json'], ['jade']
   gulp.watch 'css/main.css', ['css']
 
 gulp.task 'recompile', gulpsync.sync [ ['lint', 'coffee'], 'concat', 'uglify']

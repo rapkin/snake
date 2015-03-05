@@ -8,9 +8,9 @@ body
   link(rel="stylesheet" type="text/css" href="main.css")
 
   include game.jade
-  script
-    :coffee
-      window.game = new Game 25, 15, 20, 6
+  script.
+    window.barrier = #{barrier};
+    window.game = new Game(#{width}, #{height}, 20, 6);
 
   pre.
     Move:
