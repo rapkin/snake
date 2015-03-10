@@ -60,8 +60,12 @@ class Game
         if key in @ESC then do @stop
 
       else
-        if key in @UP then do @speed.up
-        if key in @DOWN then do @speed.down
+        if key in @UP
+          do @speed.up
+          @interval = do @get_interval
+        if key in @DOWN
+          do @speed.down
+          @interval = do @get_interval
         if key in @ESC then do @start
     return
 
