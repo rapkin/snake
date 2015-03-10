@@ -16,6 +16,7 @@ open = require 'gulp-open'
 plumber = require 'gulp-plumber'
 rename = require 'gulp-rename'
 uglify = require 'gulp-uglify'
+ftp = require 'gulp-ftp'
 
 game_file = 'game.js'
 gulp.task 'set_prod', ->
@@ -66,6 +67,16 @@ gulp.task 'connect', ->
     port: 4242
     livereload: true
 
+gulp.task 'ftp', ->
+  fs.exists './ftp.json', ->
+    ftp_conf = require './ftp.json'
+    gulp.src 'dist/*'
+      .pipe ftp
+        host: ftp_conf.host
+        user: ftp_conf.user
+        pass: ftp_conf.pass
+        remotePath: ftp_conf.path
+
 gulp.task 'open', ->
   gulp.src('dist/index.html')
     .pipe open('', url: 'http://localhost:4242')
@@ -89,6 +100,7 @@ gulp.task 'watch', ->
   gulp.watch 'coffee/make_barrier.coffee', ['lint']
   gulp.watch ['jade/*.jade', 'res/*.json'], ['jade']
   gulp.watch 'css/main.css', ['css']
+  gulp.watch 'dist/*', ['ftp']
 
 gulp.task 'recompile', gulpsync.sync [ ['lint', 'coffee'], 'concat', 'uglify']
 gulp.task 'prod', ['set_prod', 'recompile', 'jade', 'css']
