@@ -8,6 +8,10 @@ class Game
   left_right: 1
   up_right_down_left: 2
 
+  last: Date.now()
+  now: 0
+  delta: 0
+
   constructor: (@width = 30, @height = 30, @size = 12, speed = 5, layout = @left_right) ->
     @over = no
 
@@ -27,6 +31,7 @@ class Game
     @snake = new Snake @
     @food = new Food @
     @layout = layout
+    @interval = do @get_interval
     
     window.captureEvents Event.KEYPRESS
     window.onkeydown = @interupt
@@ -71,20 +76,27 @@ class Game
 
   stop: ->
     @msg_bottom.show 'Press <b>Space/Enter/Esc</b> to start'
-    clearInterval @interval
     @started = no
     return
 
   start: ->
-    @interval = setInterval @main_loop, 1000/@speed.value/2
+    do @main_loop
     @started = yes
     do @msg_bottom.hide
     return
 
   main_loop: =>
-    do @snake.move
-    do @snake.draw
+    requestAnimationFrame @main_loop
+    @now = Date.now()
+    @delta = @now - @last
+    if @started and @delta > @interval
+      do @snake.move
+      do @snake.draw
+      @last = @now - (@delta % @interval)
     return
+
+  get_interval: ->
+    1000/@speed.value/2
 
   new: (width = @width, height = @height, size = @size, speed = @speed.value, layout = @layout) ->
     do @stop
