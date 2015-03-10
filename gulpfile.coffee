@@ -68,7 +68,7 @@ gulp.task 'connect', ->
     livereload: true
 
 gulp.task 'ftp', ->
-  fs.exists './ftp.json', ->
+  if fs.exists './ftp.json'
     ftp_conf = require './ftp.json'
     gulp.src 'dist/*'
       .pipe ftp
