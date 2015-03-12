@@ -42,8 +42,7 @@ class Game
   interupt: (e) =>
     e = e or window.event
     key = e.which
-    if @over
-      if key is 82 then do @new
+    if @over then do @new
     else
       if key in @LAYOUT then do @switch_layout
       if @started

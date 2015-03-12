@@ -49,8 +49,9 @@ class Snake extends GameObject
       @game.started = no
       @game.over = yes
       do @game.stop
+      do @game.score.set_high
       @game.msg_bottom.show "GAME OVER! Your score <b>#{@game.score.value}</b>.
-          <br>Press <b>R</b> to restart"
+          <br>Press <b>any key</b> to restart"
     return
 
   step: ->
