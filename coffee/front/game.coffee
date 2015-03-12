@@ -84,6 +84,7 @@ class Game
     return
 
   start: ->
+    @last = Date.now()
     do @main_loop
     @started = yes
     do @msg_bottom.hide
