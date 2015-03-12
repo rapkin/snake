@@ -13,7 +13,7 @@ body
   include game.jade
   script.
     window.barrier = #{barrier};
-    window.game = new Game(#{width}, #{height}, 20, 6);
+    window.game = new Game(#{width}, #{height}, #{size}, #{speed});
 
   pre.
     Move:

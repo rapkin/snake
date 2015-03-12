@@ -11,11 +11,11 @@ class Snake extends GameObject
     x = Math.floor @game.width/2
     y = Math.floor @game.height/2
     @points = [
+      [x, y-2],
       [x, y-1],
-      [x, y],
-      [x, y+1]
+      [x, y]
     ]
-    @tail = [x-1, y+1]
+    @tail = [x, y+1]
     @stack = []
     @direction = @UP
     return
@@ -39,7 +39,7 @@ class Snake extends GameObject
         if x > 0 then next = [x-1, y]
         else  next = [@game.width-1, y]
 
-    if @is_free(next)
+    if @is_free(next) or @will_be_tail(next)
       @points.unshift next
       if next[0] is @game.food.points[0][0] and next[1] is @game.food.points[0][1]
         do @game.food.respawn
@@ -48,10 +48,10 @@ class Snake extends GameObject
     else
       @game.started = no
       @game.over = yes
-      do @game.stop
       do @game.score.set_high
-      @game.msg_bottom.show "GAME OVER! Your score <b>#{@game.score.value}</b>.
-          <br>Press <b>any key</b> to restart"
+      unless @game.win
+        @game.msg_bottom.show "GAME OVER! Your score <b>#{@game.score.value}</b>.
+          <br>Press <b>Space/Enter/Esc</b> to restart"
     return
 
   step: ->
@@ -86,13 +86,16 @@ class Snake extends GameObject
     return
 
   is_free: (point) ->
-    tail = @points[@points.length-1]
-    if point[0] is tail[0] and point[1] is tail[1] then return yes
     for a in @points
       if point[0] is a[0] and point[1] is a[1] then return no
     for b in @game.barrier.points
       if point[0] is b[0] and point[1] is b[1] then return no
     return yes
+
+  will_be_tail: (point) ->
+    tail = @points[@points.length - 1]
+    return yes if point[0] is tail[0] and point[1] is tail[1]
+    return no
 
   draw: ->
     super

@@ -7,11 +7,12 @@ class Food extends GameObject
 
   respawn: ->
     free = do @game.map.all_free
-    if free.length > 1
-      @points = [free[random_int 1, free.length-1]]
+    if free.length > 0
+      @points = [free[random_int 0, free.length-1]]
       log "food at [#{@points[0]}]"
     else
-      do @game.stop
+      @game.started = no
       @game.over = yes
+      @game.win = yes
       @game.msg_bottom.show 'WOOOOOW!!!<br> Snake has max size'
     return

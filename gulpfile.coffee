@@ -48,9 +48,11 @@ gulp.task 'jade', ->
       pretty: true
       locals:
         game_file: game_file
-        barrier: make_barrier lvl.barrier
-        width: lvl.width
-        height: lvl.height
+        barrier: make_barrier(lvl.barrier) or '[]'
+        width: lvl.width or 20
+        height: lvl.height or 20
+        size: lvl.size or 20
+        speed: lvl.speed or 5
 
     .pipe gulp.dest 'dist'
     .pipe livereload()
@@ -68,7 +70,7 @@ gulp.task 'connect', ->
     livereload: true
 
 gulp.task 'ftp', ->
-  if fs.exists './ftp.json'
+  if fs.existsSync './ftp.json'
     ftp_conf = require './ftp.json'
     gulp.src 'dist/*'
       .pipe ftp

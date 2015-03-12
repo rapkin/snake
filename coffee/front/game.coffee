@@ -12,8 +12,9 @@ class Game
   now: 0
   delta: 0
 
-  constructor: (@width = 30, @height = 30, @size = 12, speed = 5, layout = @left_right) ->
+  constructor: (@width = 30, @height = 30, @size = 12, speed = 5, @layout = @left_right) ->
     @over = no
+    @win = no
 
     @wrapper = $ 'game'
     @canvas = $ 'game_canvas'
@@ -30,19 +31,20 @@ class Game
     @barrier = new Barrier @
     @snake = new Snake @
     @food = new Food @
-    @layout = layout
-    @interval = do @get_interval
+    @interval = @get_interval()
+    
+    do @stop
+    do @snake.draw
     
     window.captureEvents Event.KEYPRESS
     window.onkeydown = @interupt
-    do @stop
-    do @snake.draw
     return
 
   interupt: (e) =>
     e = e or window.event
     key = e.which
-    if @over then do @new
+    if @over
+      if key in @ESC then do @new
     else
       if key in @LAYOUT then do @switch_layout
       if @started
@@ -85,8 +87,8 @@ class Game
   start: ->
     @last = Date.now()
     do @main_loop
-    @started = yes
     do @msg_bottom.hide
+    @started = yes
     return
 
   main_loop: =>
@@ -103,6 +105,5 @@ class Game
     1000/@speed.value/2
 
   new: (width = @width, height = @height, size = @size, speed = @speed.value, layout = @layout) ->
-    do @stop
     @constructor width, height, size, speed, layout
     return

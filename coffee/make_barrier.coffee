@@ -1,6 +1,7 @@
 module.exports = (barrier) ->
+  return unless barrier?
   temp = []
-  for line in barrier.lines
+  if barrier.lines? then for line in barrier.lines
     if line.by is 'x'
       for x in [line.range[0]..line.range[1]]
         temp.push [x, line.y]
@@ -8,6 +9,6 @@ module.exports = (barrier) ->
       for y in [line.range[0]..line.range[1]]
         temp.push [line.x, y]
 
-  for point in barrier.points
+  if barrier.points? then for point in barrier.points
     temp.push point
   return JSON.stringify temp

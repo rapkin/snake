@@ -1,6 +1,8 @@
 {
   "width": 20,
   "height": 20,
+  "size": 20,
+  "speed": 5,
   "barrier": {
     "lines": [
       {
