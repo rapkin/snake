@@ -102,8 +102,7 @@ gulp.task 'watch', ->
   gulp.watch 'coffee/make_barrier.coffee', ['lint']
   gulp.watch ['jade/*.jade', 'res/*.json'], ['jade']
   gulp.watch 'css/main.css', ['css']
-  gulp.watch 'dist/*', ['ftp']
 
 gulp.task 'recompile', gulpsync.sync [ ['lint', 'coffee'], 'concat', 'uglify']
-gulp.task 'prod', ['set_prod', 'recompile', 'jade', 'css']
+gulp.task 'prod', ['set_prod', 'recompile', 'jade', 'css', 'ftp']
 gulp.task 'default', ['recompile', 'css', 'jade', 'connect', 'open', 'watch']
