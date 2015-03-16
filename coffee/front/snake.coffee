@@ -4,6 +4,13 @@ class Snake extends GameObject
     color: 'red'
     constructor: (@game) -> @points = []
 
+    set: (point) ->
+      if @points.length > 0
+        tmp = @points[0]
+        do @unset
+        @game.snake.set tmp
+      super point
+
   color: 'white'
 
   UP: 1
@@ -26,6 +33,33 @@ class Snake extends GameObject
 
   move: ->
     do @step
+    next = @get_next()
+
+    @food = no
+    @food = yes if next.obj is @game.food
+    if @food
+      do @game.food.respawn
+      do @game.score.next
+
+    if @is_free(next) or @will_be_tail next
+      do @unset if not @food
+      @head.set next
+
+      if @game.win
+        @game.started = no
+        @game.over = yes
+        @game.msg_bottom.show 'WOOOOOW!!!<br> Snake has max size'
+    else
+      @game.started = no
+      @game.over = yes
+      do @game.score.set_high
+      
+      unless @game.win
+        @game.msg_bottom.show "GAME OVER! Your score <b>#{@game.score.value}</b>.
+          <br>Press <b>Space/Enter/Esc</b> to restart"
+    return
+
+  get_next: ->
     x = @head.points[0].x
     y = @head.points[0].y
 
@@ -42,32 +76,7 @@ class Snake extends GameObject
       when @LEFT
         if x > 0 then x = x-1
         else  x = @game.width-1
-
-    @food = no
-    next = @get x, y
-    @food = yes if next.obj is @game.food
-    if @food
-      do @game.food.respawn
-      do @game.score.next
-
-    if @is_free(next) or @will_be_tail next
-      do @unset if not @food
-      head = @head.points[0]
-      do @head.unset
-      @head.set next
-      @set head
-      if @game.win
-        @game.started = no
-        @game.over = yes
-        @game.msg_bottom.show 'WOOOOOW!!!<br> Snake has max size'
-    else
-      @game.started = no
-      @game.over = yes
-      do @game.score.set_high
-      unless @game.win
-        @game.msg_bottom.show "GAME OVER! Your score <b>#{@game.score.value}</b>.
-          <br>Press <b>Space/Enter/Esc</b> to restart"
-    return
+    return @get x, y
 
   step: ->
     if @stack[0]
