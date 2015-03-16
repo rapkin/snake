@@ -1,5 +1,9 @@
 class Snake extends GameObject
-  head_color: 'red'
+
+  class Head extends GameObject
+    color: 'red'
+    constructor: (@game) -> @points = []
+
   color: 'white'
 
   UP: 1
@@ -8,6 +12,7 @@ class Snake extends GameObject
   LEFT: 4
 
   constructor: (@game) ->
+    @head = new Head @game
     @points = []
     @stack = []
     @direction = @UP
@@ -17,14 +22,14 @@ class Snake extends GameObject
 
     @set @get x, y
     @set @get x, y-1
-    @set @get x, y-2
+    @head.set @get x, y-2
     return
 
   move: ->
     do @step
-    x = @points[0].x
-    y = @points[0].y
-    
+    x = @head.points[0].x
+    y = @head.points[0].y
+
     switch @direction
       when @UP
         if y > 0 then y = y-1
@@ -39,14 +44,23 @@ class Snake extends GameObject
         if x > 0 then x = x-1
         else  x = @game.width-1
 
+    @food = no
     next = @get x, y
-    if next.obj is @game.food
+    @food = yes if next.obj is @game.food
+    if @food
       do @game.food.respawn
       do @game.score.next
-    else do @unset
 
-    if @is_free(next) or @will_be_tail(next)
-      @set next
+    if @is_free(next) or @will_be_tail next
+      do @unset if not @food
+      head = @head.points[0]
+      do @head.unset
+      @head.set next
+      @set head
+      if @game.win
+        @game.started = no
+        @game.over = yes
+        @game.msg_bottom.show 'WOOOOOW!!!<br> Snake has max size'
     else
       @game.started = no
       @game.over = yes
@@ -88,7 +102,7 @@ class Snake extends GameObject
     return
 
   is_free: (point) ->
-    point.obj is @game.map
+    point.obj is @game.map or @food
 
   will_be_tail: (point) ->
     tail = @points[@points.length - 1]
