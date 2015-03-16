@@ -1,9 +1,11 @@
 class GameObject
-  points: []
   color: '#fff'
-  
-  draw: (points = @points, color = @color) ->
-    @game.g.fillStyle = color
-    for p in points
-      @game.g.fillRect p[0]*@game.size+1, p[1]*@game.size+1, @game.point_size, @game.point_size
-    return
+
+  get: (x, y) ->
+    @game.map.get x, y
+
+  set: (point) ->
+    @points.unshift @game.map.set point, @
+
+  unset: (point) ->
+    @game.map.unset @points.pop()

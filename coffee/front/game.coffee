@@ -34,7 +34,7 @@ class Game
     @interval = @get_interval()
     
     do @stop
-    do @snake.draw
+    do @map.draw
     
     window.captureEvents Event.KEYPRESS
     window.onkeydown = @interupt
@@ -97,7 +97,7 @@ class Game
     @delta = @now - @last
     if @started and @delta > @interval
       do @snake.move
-      do @snake.draw
+      do @map.draw
       @last = @now - (@delta % @interval)
     return
 

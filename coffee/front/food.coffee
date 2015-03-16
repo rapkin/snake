@@ -2,14 +2,15 @@ class Food extends GameObject
   color: 'green'
 
   constructor: (@game) ->
+    @points = []
     do @respawn
     return
 
   respawn: ->
-    free = do @game.map.all_free
+    free = @game.map.free
     if free.length > 0
-      @points = [free[random_int 0, free.length-1]]
-      log "food at [#{@points[0]}]"
+      @set @game.map.free[random_int 0, free.length-1]
+      do @unset if @points.length > 1
     else
       @game.started = no
       @game.over = yes
