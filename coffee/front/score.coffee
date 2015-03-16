@@ -14,7 +14,9 @@ class Score
     cur = localStorage.getItem 'high_score'
     localStorage.setItem 'high_score', @value if @value > cur
     do @update_high
+    return
 
   update_high: ->
     local = localStorage.getItem 'high_score'
     @tag_high.children[0].textContent = local if local
+    return

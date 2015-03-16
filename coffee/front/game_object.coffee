@@ -1,11 +1,8 @@
 class GameObject
   color: '#fff'
 
-  get: (x, y) ->
-    @game.map.get x, y
+  get: (x, y) -> @game.map.get x, y
 
-  set: (point) ->
-    @points.unshift @game.map.set point, @
+  set: (point) -> @points.unshift @game.map.set point, @
 
-  unset: (point) ->
-    @game.map.unset @points.pop()
+  unset: (point) -> @game.map.unset @points.pop()

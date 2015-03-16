@@ -38,7 +38,6 @@ class Game
     
     window.captureEvents Event.KEYPRESS
     window.onkeydown = @interupt
-    return
 
   interupt: (e) =>
     e = e or window.event
@@ -101,9 +100,7 @@ class Game
       @last = @now - (@delta % @interval)
     return
 
-  get_interval: ->
-    1000/@speed.value/2
+  get_interval: -> 1000/@speed.value/2
 
   new: (width = @width, height = @height, size = @size, speed = @speed.value, layout = @layout) ->
     @constructor width, height, size, speed, layout
-    return

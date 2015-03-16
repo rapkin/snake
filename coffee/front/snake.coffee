@@ -23,7 +23,6 @@ class Snake extends GameObject
     @set @get x, y
     @set @get x, y-1
     @head.set @get x, y-2
-    return
 
   move: ->
     do @step
@@ -81,9 +80,7 @@ class Snake extends GameObject
         else @direction = @LEFT
     return
 
-  turn: (dir = 'l') ->
-    @stack.push dir
-    return
+  turn: (dir = 'l') -> @stack.push dir
 
   try: (dir = 'l') ->
     switch dir
@@ -101,9 +98,6 @@ class Snake extends GameObject
         if @direction is @RIGHT then @turn 'r'
     return
 
-  is_free: (point) ->
-    point.obj is @game.map or @food
+  is_free: (point) -> point.obj is @game.map or @food
 
-  will_be_tail: (point) ->
-    tail = @points[@points.length - 1]
-    point is tail
+  will_be_tail: (point) -> point is @points[@points.length - 1]

@@ -4,7 +4,6 @@ class Food extends GameObject
   constructor: (@game) ->
     @points = []
     do @respawn
-    return
 
   respawn: ->
     free = @game.map.free

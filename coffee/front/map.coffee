@@ -25,7 +25,6 @@ class Map
 
     log "Map #{@game.width}x#{@game.height} created!"
     do @draw
-    return
 
   get: (x, y) ->
     if x >= @game.width or y >= @game.height
