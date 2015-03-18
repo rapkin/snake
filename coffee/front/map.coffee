@@ -46,7 +46,7 @@ class Map
     @update point
 
   update: (point) ->
-    @updated.push point if @updated.indexOf(point) is -1
+    @updated.push point if point not in @updated
 
   draw: ->
     while @updated.length > 0
