@@ -1,28 +1,17 @@
 h4 {
   margin-left: 40px;
   font-weight: 400;
-  font-family: Helvetica, Arial, sans-serif;
 }
 body {
   -webkit-font-smoothing: antialiased;
-  font-family: monospace;
-}
-#high_score {
-  background: #111;
-  color: white;
-  font-size: 1.3em;
-  position: fixed;
-  bottom: 0;
-  right: 0;
-  padding: 10px;
-}
-#high_score span {
-  font-weight: bold;
+  font-family: Geneva, Helvetica, Arial, sans-serif;
 }
 #game {
+  user-select: none;
+  cursor: default;
   border: 3px solid #111;
-  border-top: 20px solid #111;
-  border-radius: 5px;
+  border-top: 32px solid #111;
+  border-radius: 2px;
   margin: 30px auto;
   position: relative;
   box-shadow: 0 0 30px #111;
@@ -30,41 +19,33 @@ body {
 #game_canvas {
   background: #111;
 }
-#close, #full, #min {
-  border: 1px solid #000;
-  width: 10px;
-  height: 10px;
-  background: red;
-  border-radius: 50%;
-  position: absolute;
-  left: 5px;
-  top: -15px;
-  z-index: 2;
-}
-#full {
-  left: 35px;
-  background: green;
-}
-#min {
-  left: 20px;
-  background: yellow;
-}
-#title, #right {
-  font-size: 16px;
+#title, .right, .left {
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: 14px;
   position: absolute;
   width: 100%;
-  top: -18px;
+  top: -24px;
 }
 #title {
   text-align: center;
   color: #fff;
 }
-#right {
+.right {
   right: 5px;
 }
+.left {
+  left: 30px;
+}
 #speed, #score {
+  position: relative;
   float: right;
-  margin-left: 5px; 
+  margin-left: 35px; 
+}
+#high_score {
+  position: relative;
+  float: left;
+  color: red;
 }
 #score {
   color: green;
@@ -95,4 +76,21 @@ body {
 .msg_show {
   bottom: 10px;
   opacity: 1;
+}
+.icon {
+  position: absolute;
+  fill: white;
+  left: -25px;
+  top: -2px;
+  width: 20px;
+  height: 20px;
+}
+#high_score .icon {
+  fill: red;
+}
+#speed .icon {
+  fill: yellow;
+}
+#score .icon {
+  fill: green;
 }

@@ -1,6 +1,6 @@
 class Speed
   constructor: (@game, @value) ->
-    @tag = $ 'speed'
+    @tag = value_tag $ 'speed'
     do @show
 
   show: ->

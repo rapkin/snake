@@ -1,7 +1,7 @@
 class Score
   constructor: (@game) ->
-    @tag = $ 'score'
-    @tag_high = $ 'high_score'
+    @tag = value_tag $ 'score'
+    @tag_high = value_tag $ 'high_score'
     @value = 0
     @tag.textContent = @value
     do @update_high
@@ -18,5 +18,5 @@ class Score
 
   update_high: ->
     local = localStorage.getItem 'high_score'
-    @tag_high.children[0].textContent = local if local
+    @tag_high.textContent = local if local
     return
