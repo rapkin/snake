@@ -1,5 +1,5 @@
 class Barrier extends GameObject
-  color: '#666'
+  color: '#333'
 
   constructor: (@game) ->
     @points = []

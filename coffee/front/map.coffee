@@ -1,5 +1,5 @@
 class Map
-  color: '#222'
+  color: '#111'
 
   constructor: (@game) ->
     @points = []
