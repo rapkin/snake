@@ -44,6 +44,7 @@ gulp.task 'coffee', ->
 gulp.task 'jade', ->
   lvl = JSON.parse fs.readFileSync './res/lvl_1.json', 'utf-8'
   gulp.src 'jade/index.jade'
+    .pipe plumber()
     .pipe jade
       pretty: true
       locals:
@@ -91,6 +92,7 @@ gulp.task 'uglify', ->
 
 gulp.task 'css', ->
   gulp.src 'css/main.css'
+    .pipe plumber()
     .pipe autoprefixer 'last 15 version'
     .pipe minifyCSS()
     .pipe gulp.dest 'dist'
