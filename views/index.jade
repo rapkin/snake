@@ -4,8 +4,10 @@ html
     title Snake on CoffeeScript
 
 body
-  script(src="#{game_file}")
-  link(rel="stylesheet" type="text/css" href="main.css")
+  script
+    include ../assets/game.min.js
+  style
+    include ../assets/main.css
 
   include game.jade
   script.
