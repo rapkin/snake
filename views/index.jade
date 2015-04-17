@@ -4,24 +4,10 @@ html
     title Snake on CoffeeScript
 
 body
-  script
-    include ../assets/game.min.js
   style
     include ../assets/main.css
 
-  include game.jade
-  script.
-    window.barrier = #{barrier};
-    window.game = new Game(#{width}, #{height}, #{size}, #{speed});
-
-  .flex
-    p.flex_child Move:<br>
-      | W/&#9650; - faster snake (only on pause) <br>
-      | S/&#9660; - slover snake (only on pause) <br>
-      | A/&#9664; - turn left <br>
-      | D/&#9654; - turn right <br>
-      | L - switch layout type (&#9664;&#9654; or &#9650;&#9654;&#9660;&#9664;) <br>
-      | ESC/Enter/Space - pause/resume game
-
-    h4.flex_child Source code on 
-      a(href="http://github.com/rapkin/snake") GitHub (rapkin/snake)
+  if game
+    include game.jade
+  else
+    include levels.jade

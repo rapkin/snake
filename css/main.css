@@ -66,31 +66,35 @@ a {
 #speed {
   color: yellow;
 }
+.msg {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+}
 #msg_top, #msg_bottom {
   font-size: 0.8em;
   padding: 10px 0;
-  background: rgba(255,255,255,.85);
-  color: black;
-/*  background: rgba(0,0,0,.85);
-  color: white;*/
-  width: 60%;
-  margin: 20%;
-  margin-bottom: 10%;
+  background: rgba(0,0,0,.85);
+  color: white;
+  width: 40%;
   position: absolute;
-  border-radius: 2px;
   text-align: center;
-  transition: opacity 0.2s ease-out, bottom 0.3s ease-out;
+  transition: all 0.3s ease-out;
 }
 #msg_top {
-  margin-bottom: 30%;
+  top: 0;
+}
+#msg_bottom {
+  bottom: 0;
 }
 .msg_hide {
-  bottom: 0;
-  opacity: 0;
+  left: -100%;
 }
 .msg_show {
-  bottom: 10px;
-  opacity: 1;
+  left: 0;
 }
 .icon {
   position: absolute;
@@ -108,4 +112,27 @@ a {
 }
 #score .icon {
   fill: green;
+}
+#levels {
+  background: black;
+  padding: 10px;
+}
+a.level_label {
+  display: inline-block;
+  border-radius: 5px;
+  border: 3px solid white;
+  color: white;
+  text-decoration: none;
+  text-align: center;
+  font-size: 2em;
+  line-height: 70px;
+  margin: 20px;
+  width: 70px;
+  height: 70px;
+  background: #f33;
+}
+a.level_label:hover {
+  border: 3px solid yellow;
+  color: yellow;
+  background: red;
 }

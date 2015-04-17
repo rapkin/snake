@@ -27,13 +27,11 @@ make_barrier = (barrier) ->
 
 
 app.get '/', (req, res) ->
-  body = ''
-  for file in fs.readdirSync 'levels'
-    p = path.basename file, '.json'
-    body += "<a href='./lvl/#{p}'>#{file}</a><br>"
-  res.send body
+  levels = for file in fs.readdirSync 'levels'
+    path.basename file, '.json'
+  res.render 'index', levels: levels, game: false
 
-app.all '/lvl/:id', (req, res) ->
+app.get '/lvl/:id', (req, res) ->
   lvl = getLvl req.params.id
   res.render 'index',
     barrier: make_barrier(lvl.barrier) or '[]'
@@ -41,5 +39,6 @@ app.all '/lvl/:id', (req, res) ->
     height: lvl.height or 20
     size: lvl.size or 20
     speed: lvl.speed or 5
+    game: true
 
 app.listen 4242

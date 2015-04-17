@@ -1,5 +1,7 @@
 class Game
-  ESC: [27, 13, 32]
+  enter: 13
+  ESC: [@.prototype.enter, 27, 32]
+  EDIT: [69]
   LAYOUT: [76]
   LEFT: [37, 65]
   RIGHT: [39, 68]
@@ -11,6 +13,7 @@ class Game
   last: Date.now()
   now: 0
   delta: 0
+  edit_mode: no
 
   constructor: (@width = 30, @height = 30, @size = 12, speed = 5, @layout = @left_right) ->
     @over = no
@@ -32,7 +35,11 @@ class Game
     @snake = new Snake @
     @food = new Food @
     @interval = @get_interval()
-    
+
+    if @edit_mode
+      do @food.unset
+      do @barrier.start_edit
+
     do @stop
     do @map.draw
     
@@ -42,31 +49,38 @@ class Game
   interupt: (e) =>
     e = e or window.event
     key = e.which
-    if @over
-      if key in @ESC then do @new
+    if @edit_mode
+      if key in @ESC
+        if key is @enter then do @barrier.serialize
+        @edit_mode = no
+        do @new
     else
-      if key in @LAYOUT then do @switch_layout
-      if @started
-        if @layout is @left_right
-          if key in @LEFT then @snake.turn 'l'
-          if key in @RIGHT then @snake.turn 'r'
-
-        else if @layout is @up_right_down_left
-          if key in @LEFT then @snake.try 'l'
-          if key in @RIGHT then @snake.try 'r'
-          if key in @UP then @snake.try 'u'
-          if key in @DOWN then @snake.try 'd'
-
-        if key in @ESC then do @stop
-
+      if key in @EDIT then do @edit
+      if @over
+        if key in @ESC then do @new
       else
-        if key in @UP
-          do @speed.up
-          @interval = do @get_interval
-        if key in @DOWN
-          do @speed.down
-          @interval = do @get_interval
-        if key in @ESC then do @start
+        if key in @LAYOUT then do @switch_layout
+        if @started
+          if @layout is @left_right
+            if key in @LEFT then @snake.turn 'l'
+            if key in @RIGHT then @snake.turn 'r'
+
+          else if @layout is @up_right_down_left
+            if key in @LEFT then @snake.try 'l'
+            if key in @RIGHT then @snake.try 'r'
+            if key in @UP then @snake.try 'u'
+            if key in @DOWN then @snake.try 'd'
+
+          if key in @ESC then do @stop
+
+        else
+          if key in @UP
+            do @speed.up
+            @interval = do @get_interval
+          if key in @DOWN
+            do @speed.down
+            @interval = do @get_interval
+          if key in @ESC then do @start
     return
 
   switch_layout: ->
@@ -89,6 +103,10 @@ class Game
     do @msg_bottom.hide
     @started = yes
     return
+
+  edit: ->
+    @edit_mode = yes
+    do @new
 
   main_loop: =>
     requestAnimationFrame @main_loop
