@@ -1,5 +1,8 @@
 class Game
   enter: 13
+  clear: 67
+  plus: 187
+  minus: 189
   ESC: [@.prototype.enter, 27, 32]
   EDIT: [69]
   LAYOUT: [76]
@@ -18,6 +21,9 @@ class Game
   constructor: (@width = 30, @height = 30, @size = 12, speed = 5, @layout = @left_right) ->
     @over = no
     @win = no
+    @height = 4 if @height < 4
+    @width = 4 if @width < 4
+    @size = 4 if @size < 4
 
     @wrapper = $ 'game'
     @canvas = $ 'game_canvas'
@@ -50,10 +56,7 @@ class Game
     e = e or window.event
     key = e.which
     if @edit_mode
-      if key in @ESC
-        if key is @enter then do @barrier.serialize
-        @edit_mode = no
-        do @new
+      @barrier.key_action key
     else
       if key in @EDIT then do @edit
       if @over
