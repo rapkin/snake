@@ -17,9 +17,8 @@
 
 script
   include ../assets/game.min.js
-script.
-  window.barrier = #{barrier};
-  window.game = new Game(#{width}, #{height}, #{size}, #{speed});
+  | window.barrier = #{barrier};
+  | window.game = new Game(#{width}, #{height}, #{size}, #{speed});
 
 .flex
   p.flex_child Move:<br>
