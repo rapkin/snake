@@ -33,6 +33,7 @@ class Map
     return @points[x][y]
 
   set: (point, obj) ->
+    return null unless point?
     point.obj = obj
     @update point
     if obj is @

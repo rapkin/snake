@@ -6,7 +6,8 @@ class Barrier extends GameObject
     @points = []
     points = window.barrier or []
     for p in points
-      @set @get p[0], p[1]
+      _p = @get p[0], p[1]
+      @set _p if _p? and _p.obj is @game.map
 
   start_edit: ->
     log '# eddit mode'.toUpperCase()

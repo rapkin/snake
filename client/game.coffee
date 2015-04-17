@@ -37,8 +37,8 @@ class Game
     @speed = new Speed @, speed
     @score = new Score @
     @map = new Map @
-    @barrier = new Barrier @
     @snake = new Snake @
+    @barrier = new Barrier @
     @food = new Food @
     @interval = @get_interval()
 
