@@ -1,24 +1,30 @@
 class Game
-  enter: 13
-  clear: 67
-  plus: 187
-  minus: 189
-  ESC: [@.prototype.enter, 27, 32]
-  EDIT: [69]
-  LAYOUT: [76]
-  LEFT: [37, 65]
-  RIGHT: [39, 68]
-  UP: [38, 87]
-  DOWN: [40, 83]
-  left_right: 1
-  up_right_down_left: 2
+  key:
+    enter: 13
+    clear: 67
+    plus: 187
+    minus: 189
+    higher: 190
+    lower: 188
+    ESC: [13, 27, 32]
+    EDIT: [69]
+    LAYOUT: [76]
+    LEFT: [37, 65]
+    RIGHT: [39, 68]
+    UP: [38, 87]
+    DOWN: [40, 83]
+
+  layout:
+    now: 1
+    left_right: 1
+    up_right_down_left: 2
 
   last: Date.now()
   now: 0
   delta: 0
   edit_mode: no
 
-  constructor: (@width = 30, @height = 30, @size = 12, speed = 5, @layout = @left_right) ->
+  constructor: (@width = 30, @height = 30, @size = 12, speed = 5) ->
     @over = no
     @win = no
     @height = 4 if @height < 4
@@ -42,10 +48,6 @@ class Game
     @food = new Food @
     @interval = @get_interval()
 
-    if @edit_mode
-      do @food.unset
-      do @barrier.start_edit
-
     do @stop
     do @map.draw
     
@@ -58,41 +60,33 @@ class Game
     if @edit_mode
       @barrier.key_action key
     else
-      if key in @EDIT then do @edit
+      if key in @key.EDIT then do @edit
       if @over
-        if key in @ESC then do @new
+        if key in @key.ESC then do @new
       else
-        if key in @LAYOUT then do @switch_layout
+        if key in @key.LAYOUT then do @switch_layout
         if @started
-          if @layout is @left_right
-            if key in @LEFT then @snake.turn 'l'
-            if key in @RIGHT then @snake.turn 'r'
+          if @layout.now is @layout.left_right
+            if key in @key.LEFT then @snake.turn 'l'
+            if key in @key.RIGHT then @snake.turn 'r'
 
-          else if @layout is @up_right_down_left
-            if key in @LEFT then @snake.try 'l'
-            if key in @RIGHT then @snake.try 'r'
-            if key in @UP then @snake.try 'u'
-            if key in @DOWN then @snake.try 'd'
+          else if @layout.now is @layout.up_right_down_left
+            if key in @key.LEFT then @snake.try 'l'
+            if key in @key.RIGHT then @snake.try 'r'
+            if key in @key.UP then @snake.try 'u'
+            if key in @key.DOWN then @snake.try 'd'
 
-          if key in @ESC then do @stop
-
-        else
-          if key in @UP
-            do @speed.up
-            @interval = do @get_interval
-          if key in @DOWN
-            do @speed.down
-            @interval = do @get_interval
-          if key in @ESC then do @start
+          if key in @key.ESC then do @stop
+        else if key in @key.ESC then do @start
     return
 
   switch_layout: ->
-    if @layout is @left_right
+    if @layout.now is @layout.left_right
       @msg_top.show 'Layout switched to &#9650;&#9654;&#9660;&#9664;', 1.1
-      @layout = @up_right_down_left
-    else if @layout is @up_right_down_left
+      @layout.now = @layout.up_right_down_left
+    else if @layout.now is @layout.up_right_down_left
       @msg_top.show 'Layout switched to &#9664;&#9654;', 1.1
-      @layout = @left_right
+      @layout.now = @layout.left_right
     return
 
   stop: ->
@@ -123,5 +117,10 @@ class Game
 
   get_interval: -> 1000/@speed.value/2
 
-  new: (width = @width, height = @height, size = @size, speed = @speed.value, layout = @layout) ->
-    @constructor width, height, size, speed, layout
+  new: (width = @width, height = @height, size = @size, speed = @speed.value) ->
+    @constructor width, height, size, speed
+
+    if @edit_mode
+      do @food.unset
+      do @barrier.start_edit
+      do @map.draw

@@ -16,6 +16,8 @@ class Barrier extends GameObject
     @game.msg_top.tag.parentElement.style.display = 'none'
     @game.canvas.style.cursor = 'crosshair'
 
+    @game.canvas.onclick = (e) =>
+      @mouse_action e
     @game.canvas.onmousedown = (e) =>
       @game.canvas.onmousemove = (e) =>
         @mouse_action e
@@ -24,6 +26,7 @@ class Barrier extends GameObject
 
   stop_edit: ->
     @game.canvas.onkeydown = null
+    @game.canvas.onclick = null
     @game.canvas.onmousedown = null
     @game.canvas.onmouseup = null
     @game.canvas.onmousemove = null
@@ -42,15 +45,17 @@ class Barrier extends GameObject
     do @game.map.draw
 
   key_action: (key) =>
-    if key is @game.clear then @clear = not @clear
-    if key is @game.plus then @change_game_param 'size', 1
-    if key is @game.minus then @change_game_param 'size', -1
-    if key in @game.UP then @change_game_param 'height', -1
-    if key in @game.RIGHT then @change_game_param 'width', 1
-    if key in @game.DOWN then @change_game_param 'height', 1
-    if key in @game.LEFT then @change_game_param 'width', -1
-    if key in @game.ESC
-      if key is @game.enter then do @serialize
+    if key is @game.key.clear then @clear = not @clear
+    if key is @game.key.plus then @change_game_param 'size', 1
+    if key is @game.key.minus then @change_game_param 'size', -1
+    if key in @game.key.UP then @change_game_param 'height', -1
+    if key in @game.key.RIGHT then @change_game_param 'width', 1
+    if key in @game.key.DOWN then @change_game_param 'height', 1
+    if key in @game.key.LEFT then @change_game_param 'width', -1
+    if key is @game.key.higher then do @game.speed.up
+    if key is @game.key.lower then do @game.speed.down
+    if key in @game.key.ESC
+      if key is @game.key.enter then do @serialize
       @game.edit_mode = no
       do @game.new
 
@@ -62,6 +67,7 @@ class Barrier extends GameObject
     window.barrier = []
     for point in @points
       window.barrier.push [point.x, point.y]
+    return
 
   change_game_param: (param, value) ->
     @game[param] += value

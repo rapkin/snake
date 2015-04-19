@@ -58,9 +58,9 @@ gulp.task 'watch', ->
           .pipe notify message: 'SERVER reloaded'
         ), 400
 
-  gulp.watch 'client/*.coffee', ['recompile', 'reload']
-  gulp.watch 'css/main.css', ['css', 'reload']
-  gulp.watch 'views/*/*', ['reload']
+  gulp.watch 'client/*.coffee', gulpsync.sync ['recompile', 'reload']
+  gulp.watch 'css/main.css', gulpsync.sync ['css', 'reload']
+  gulp.watch 'views/*', ['reload']
 
 gulp.task 'recompile', gulpsync.sync [ ['lint', 'coffee'], 'js']
 gulp.task 'default', ['recompile', 'css', 'watch']
