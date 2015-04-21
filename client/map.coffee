@@ -27,10 +27,9 @@ class Map
     do @draw
 
   get: (x, y) ->
-    if x >= @game.width or y >= @game.height
-      log "Undefined coordinate [#{x}, #{y}]"
-      return
-    return @points[x][y]
+    return @points[x][y] if 0 <= x < @game.width and 0 <= y < @game.height
+    log "Undefined coordinate [#{x}, #{y}]"
+    return null
 
   set: (point, obj) ->
     return null unless point?

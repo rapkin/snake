@@ -50,7 +50,14 @@ class Game
 
     do @stop
     do @map.draw
-    
+
+    if @map.free.length is 0
+      @over = yes
+      @msg_bottom.show '''
+        <b>DONT MAKE LVL LIKE THIS!!!</b><br>
+        Edit please (press <b>E</b>)
+        '''
+
     window.captureEvents Event.KEYPRESS
     window.onkeydown = @interupt
 
@@ -121,6 +128,6 @@ class Game
     @constructor width, height, size, speed
 
     if @edit_mode
-      do @food.unset
+      do @food.unset if @food.points.length > 0
       do @barrier.start_edit
       do @map.draw

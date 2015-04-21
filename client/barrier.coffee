@@ -33,8 +33,9 @@ class Barrier extends GameObject
     @game.canvas.onmousemove = null
 
   mouse_action: (e) ->
-    x = Math.floor e.offsetX/@game.size + 1
-    y = Math.floor e.offsetY/@game.size + 1
+    rect = @game.canvas.getBoundingClientRect()
+    x = Math.floor (e.clientX - rect.left)/@game.size + 1
+    y = Math.floor (e.clientY - rect.top)/@game.size + 1
 
     point = @get x-1, y-1
     if @clear
