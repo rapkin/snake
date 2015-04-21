@@ -103,9 +103,9 @@ class Game
 
   start: ->
     @last = Date.now()
+    @started = yes
     do @main_loop
     do @msg_bottom.hide
-    @started = yes
     return
 
   edit: ->
@@ -113,13 +113,14 @@ class Game
     do @new
 
   main_loop: =>
-    requestAnimationFrame @main_loop
-    @now = Date.now()
-    @delta = @now - @last
-    if @started and @delta > @interval
-      do @snake.move
-      do @map.draw
-      @last = @now - (@delta % @interval)
+    if @started 
+      requestAnimationFrame @main_loop
+      @now = Date.now()
+      @delta = @now - @last
+      if @delta > @interval
+        do @snake.move
+        do @map.draw
+        @last = @now - (@delta % @interval)
     return
 
   get_interval: -> 1000/@speed.value/2
