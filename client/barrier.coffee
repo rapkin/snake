@@ -4,7 +4,7 @@ class Barrier extends GameObject
   constructor: (@game) ->
     @game.msg_top.tag.parentElement.style.display = 'block'
     @points = []
-    points = window.barrier or []
+    points = window.barrier_tmp or window.barrier or []
     for p in points
       _p = @get p[0], p[1]
       @set _p if _p? and _p.obj is @game.map
@@ -12,6 +12,7 @@ class Barrier extends GameObject
   start_edit: ->
     log '# eddit mode'.toUpperCase()
     @clear = no
+    do @save_barrier
     do @game.msg_bottom.hide
     @game.msg_top.tag.parentElement.style.display = 'none'
     @game.canvas.style.cursor = 'crosshair'
@@ -63,13 +64,30 @@ class Barrier extends GameObject
     @points.splice @points.indexOf(point), 1
     @game.map.unset point
 
+  save_barrier: ->
+    window.barrier_tmp = []
+    for p in @points
+      window.barrier_tmp.push [p.x, p.y]
+    return
+
   serialize: ->
     window.barrier = []
-    for point in @points
-      window.barrier.push [point.x, point.y]
+    for p in @points
+      window.barrier.push [p.x, p.y]
+    window.barrier_tmp = null
+
+    req = getXmlHttp()
+    req.open 'POST', '/save_level', true
+    req.send JSON.stringify
+      _id: document.URL.match(/(\d+)$/)[0]
+      width: @game.width
+      height: @game.height
+      size: @game.size
+      speed: @game.speed.value
+      barrier: window.barrier or []
     return
 
   change_game_param: (param, value) ->
     @game[param] += value
-    do @serialize
+    do @save_barrier
     do @game.new

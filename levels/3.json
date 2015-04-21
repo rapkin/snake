@@ -1,19 +1,19 @@
 {
-  "width": 150,
-  "height": 100,
-  "size": 4,
+  "width": 15,
+  "height": 10,
+  "size": 40,
   "speed": 26,
   "barrier": {
     "lines": [
       {
         "by": "x",
         "y": 0,
-        "range": [0, 149]
+        "range": [0, 14]
       },
       {
         "by": "x",
-        "y": 99,
-        "range": [0, 149]
+        "y": 9,
+        "range": [0, 14]
       }
     ]
   }

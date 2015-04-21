@@ -56,7 +56,7 @@ gulp.task 'watch', ->
         gulp.src 'server.node.coffee'
           .pipe livereload()
           .pipe notify message: 'SERVER reloaded'
-        ), 400
+        ), 1000
 
   gulp.watch 'client/*.coffee', gulpsync.sync ['recompile', 'reload']
   gulp.watch 'css/main.css', gulpsync.sync ['css', 'reload']
