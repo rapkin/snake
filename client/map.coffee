@@ -51,6 +51,9 @@ class Map
   draw: ->
     while @updated.length > 0
       p = @updated.pop()
-      @game.g.fillStyle = p.obj.color
-      @game.g.fillRect p.x*@game.size+1, p.y*@game.size+1, @game.point_size, @game.point_size
+      @draw_point p
     return
+
+  draw_point: (p, color = null) ->
+    @game.g.fillStyle = color or p.obj.color
+    @game.g.fillRect p.x*@game.size+1, p.y*@game.size+1, @game.point_size, @game.point_size

@@ -10,7 +10,8 @@ class Barrier extends GameObject
       @set _p if _p? and _p.obj is @game.map
 
   start_edit: ->
-    log '# eddit mode'.toUpperCase()
+    log '# EDIT MODE'
+    @mask = []
     @clear = no
     do @save_barrier
     do @game.msg_bottom.hide
@@ -18,12 +19,14 @@ class Barrier extends GameObject
     @game.canvas.style.cursor = 'crosshair'
 
     @game.canvas.onclick = (e) =>
+      @click = yes
+      @mouse_action e
+    @game.canvas.onmousemove = (e) =>
       @mouse_action e
     @game.canvas.onmousedown = (e) =>
-      @game.canvas.onmousemove = (e) =>
-        @mouse_action e
+      @press = yes
       @game.canvas.onmouseup = (e) =>
-        @game.canvas.onmousemove = null
+        @press = no
 
   stop_edit: ->
     @game.canvas.onkeydown = null
@@ -38,16 +41,30 @@ class Barrier extends GameObject
     y = Math.floor (e.clientY - rect.top)/@game.size + 1
 
     point = @get x-1, y-1
-    if @clear
-      if point.obj is @
-        @unset point
-    else
-      if point.obj is @game.map
-        @set point
-    do @game.map.draw
+    if @press or @click
+      @click = no if @click
+      if @clear
+        if point.obj is @
+          @unset point
+      else
+        if point.obj is @game.map
+          @set point
+      do @game.map.draw
+    @set_mask point
+
+  set_mask: (point) ->
+    color = 'rgba(0,255,0,.2)'
+    color = 'rgba(255,255,0,.2)' if @clear
+    if @mask.length
+      last = @mask.pop()
+      @game.map.draw_point last
+    @mask.push point
+    @game.map.draw_point point, color
 
   key_action: (key) =>
-    if key is @game.key.clear then @clear = not @clear
+    if key is @game.key.clear
+      @clear = not @clear
+      @set_mask @mask[0]
     if key is @game.key.plus then @change_game_param 'size', 1
     if key is @game.key.minus then @change_game_param 'size', -1
     if key in @game.key.UP then @change_game_param 'height', -1

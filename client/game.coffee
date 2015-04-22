@@ -33,6 +33,7 @@ class Game
 
     @wrapper = $ 'game'
     @canvas = $ 'game_canvas'
+    do @reset_title
     do @canvas.remove if @canvas?
     @canvas = document.createElement 'canvas'
     @canvas.setAttribute 'id', 'game_canvas'
@@ -111,9 +112,10 @@ class Game
   edit: ->
     @edit_mode = yes
     do @new
+    @title.tag.appendChild @title.edit
 
   main_loop: =>
-    if @started 
+    if @started
       requestAnimationFrame @main_loop
       @now = Date.now()
       @delta = @now - @last
@@ -124,6 +126,12 @@ class Game
     return
 
   get_interval: -> 1000/@speed.value/2
+
+  reset_title: ->
+    @title = tag: $ 'title'
+    @title.tag.children[0].remove() if @title.tag.childElementCount
+    @title.edit = document.createElement 'span'
+    @title.edit.innerHTML = ' (edit mode)'
 
   new: (width = @width, height = @height, size = @size, speed = @speed.value) ->
     @constructor width, height, size, speed

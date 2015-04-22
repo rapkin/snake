@@ -40,7 +40,7 @@ make_barrier = (barrier) ->
 app.get '/', (req, res) ->
   db.levels.count (e, n) ->
     if n > 0
-      db.levels.find {}, (e, l) ->
+      db.levels.find().sort {_id: 1}, (e, l) ->
         levels = for _l in l then _l._id
         res.render 'index', levels: levels, game: false
     else
