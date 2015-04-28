@@ -33,6 +33,7 @@ class Game
 
     @wrapper = $ 'game'
     @canvas = $ 'game_canvas'
+    @title = tag: $ 'title'
     do @reset_title
     do @canvas.remove if @canvas?
     @canvas = document.createElement 'canvas'
@@ -128,7 +129,6 @@ class Game
   get_interval: -> 1000/@speed.value/2
 
   reset_title: ->
-    @title = tag: $ 'title'
     @title.tag.children[0].remove() if @title.tag.childElementCount
     @title.edit = document.createElement 'span'
     @title.edit.innerHTML = ' (edit mode)'

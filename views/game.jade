@@ -20,8 +20,9 @@ script
   | window.barrier = #{barrier};
   | window.game = new Game(#{width}, #{height}, #{size}, #{speed});
 
-.flex
-  p.flex_child Game mode:<br>
+#help
+  p.help_child
+    b Game mode:<br>
     | W/&#9650; - turn up (when &#9650;&#9654;&#9660;&#9664;) <br>
     | S/&#9660; - turn down (when &#9664;&#9654;) <br>
     | A/&#9664; - turn left <br>
@@ -30,7 +31,8 @@ script
     | ESC/Enter/Space - pause/resume game <br>
     | E - switch to Edit mode
 
-  p.flex_child Edit mode:<br>
+  p.help_child
+    b Edit mode:<br>
     | &#9650;&#9654;&#9660;&#9664; - resize map <br>
     | +/- - zoom <br>
     | &lt; - decrease speed <br>
@@ -40,5 +42,5 @@ script
     | Enter - save level <br>
     | ESC - discard changes
 
-  h4.flex_child Source code on 
+  h4.help_child.full Source code on 
     a(href="http://github.com/rapkin/snake") GitHub (rapkin/snake)

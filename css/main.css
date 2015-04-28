@@ -10,15 +10,43 @@ a {
   font-weight: bold;
   color: white;
 }
-.flex {
+#help:before {
+  content: 'HELP';
+  font-weight: bold;
+  padding: 5px;
+  height: 20px;
+  width: 36px;
+  background: red;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+#help {
+  overflow: hidden;
+  position: fixed;
+  height: 50%;
+  bottom: calc(-50% + 30px);
+  right: calc(-100% + 46px);
+  box-sizing: border-box;
+  padding: 10px 20px;
   background: black;
   width: 100%;
-  display: flex;
-  justify-content: space-around;
-  flex-wrap: wrap;
+  transition: all .4s ease-out;
 }
-.flex_child {
+#help:hover {
+  right: 0;
+  bottom: 0;
+}
+.help_child {
+  display: inline-block;
+  width: 50%;
+  box-sizing: border-box;
+  float: left;
   padding: 0 10px;
+  text-align: center;
+}
+.full {
+  width: 100%;
 }
 #game {
   user-select: none;
