@@ -23,7 +23,6 @@ class Game
   edit_mode: no
   now: 0
   delta: 0
-  edit_mode: no
 
   constructor: (@width = 30, @height = 30, @size = 12, speed = 5) ->
     @over = no

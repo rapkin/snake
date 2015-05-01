@@ -1,3 +1,10 @@
 #levels
-  each id in levels
-    a.level_label(href="./default/#{id}")= id
+  if user && user !== 'default'
+    .label
+      a.new_level_label(href="/new_level") +
+  each name in levels
+    .label
+      a.level_label(href="/#{user}/#{name}")= name
+
+      if user && user !== 'default'
+        a.remove(href="/delete_level/#{user}/#{name}") x

@@ -1,5 +1,5 @@
 class Barrier extends GameObject
-  color: '#333'
+  color: '#DAB890'
 
   constructor: (@game) ->
     @game.msg_top.tag.parentElement.style.display = 'block'
@@ -53,8 +53,8 @@ class Barrier extends GameObject
     @set_mask point
 
   set_mask: (point) ->
-    color = 'rgba(0,255,0,.2)'
-    color = 'rgba(255,255,0,.2)' if @clear
+    color = 'rgba(0,255,0,.4)'
+    color = 'rgba(255,150,0,.4)' if @clear
     if @mask.length
       last = @mask.pop()
       @game.map.draw_point last
