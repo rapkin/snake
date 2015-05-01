@@ -20,6 +20,7 @@ class Game
     up_right_down_left: 2
 
   last: Date.now()
+  edit_mode: no
   now: 0
   delta: 0
   edit_mode: no
@@ -113,7 +114,6 @@ class Game
   edit: ->
     @edit_mode = yes
     do @new
-    @title.tag.appendChild @title.edit
 
   main_loop: =>
     if @started
@@ -132,6 +132,7 @@ class Game
     @title.tag.children[0].remove() if @title.tag.childElementCount
     @title.edit = document.createElement 'span'
     @title.edit.innerHTML = ' (edit mode)'
+    @title.tag.appendChild @title.edit if @edit_mode
 
   new: (width = @width, height = @height, size = @size, speed = @speed.value) ->
     @constructor width, height, size, speed

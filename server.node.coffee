@@ -2,24 +2,57 @@ express = require 'express'
 fs = require 'fs'
 path = require 'path'
 parser = require 'body-parser'
-db = require('mongojs').connect 'mongodb://localhost:27017/snake', ['levels']
+db = require('mongojs').connect 'mongodb://localhost:27017/snake', ['levels', 'users', 'scores']
 app = express()
+
+db.users.find {name: 'default'}, (e, u) ->
+  return if u[0]?
+  db.scores.remove {}
+  db.levels.remove {}
+  db.users.remove {}
+  db.users.save name: 'default', (e, u) ->
+    levels = for file in fs.readdirSync 'levels'
+      path.basename file, '.json'
+    for name in levels
+      lvl = get_lvl_from_file name
+      lvl.uid = u._id
+      db.levels.save lvl
+
 
 app.set 'view engine', 'jade'
 app.use parser.text()
 
-get_lvl_from_file = (id) ->
-  lvl_file = "./levels/#{id}.json"
+get_lvl_from_file = (name) ->
+  lvl_file = "./levels/#{name}.json"
   console.log "[FILE] #{lvl_file}"
   return null if not fs.existsSync lvl_file
   lvl = JSON.parse fs.readFileSync lvl_file, 'utf-8'
-  lvl._id = parseInt id
+  lvl.name = name
   lvl.barrier = make_barrier lvl.barrier
   return lvl
 
-save_lvl = (level) ->
-  level._id = parseInt level._id
-  db.levels.save level
+save_level = (level, user_name, lvl_name) ->
+  db.users.find {name: user_name}, (e, u) ->
+    return unless u[0]?
+    db.levels.find {name: lvl_name, uid: u[0]._id}, (e, l) ->
+      level._id = l[0]._id if l[0]?
+      level.name = lvl_name
+      level.uid = u[0]._id
+      db.levels.save level
+
+save_score = (score, user_name, lvl_name) ->
+  db.users.find {name: user_name}, (e, u) ->
+    return unless u[0]? or not e
+    score.uid = u[0]._id
+    db.levels.find {name: lvl_name}, (e, l) ->
+      return unless l[0]? or not e
+      score.lid = l[0]._id
+      db.scores.find {uid: u[0]._id, lid: l[0]._id}, (e, s) ->
+        if s[0]?
+          score._id = s[0]._id
+          return if s[0].value > score.value
+        score.time = Date.now()
+        db.scores.save score
 
 make_barrier = (barrier) ->
   return unless barrier?
@@ -38,31 +71,37 @@ make_barrier = (barrier) ->
 
 
 app.get '/', (req, res) ->
-  db.levels.count (e, n) ->
-    if n > 0
-      db.levels.find().sort {_id: 1}, (e, l) ->
-        levels = for _l in l then _l._id
-        res.render 'index', levels: levels, game: false
-    else
-      levels = for file in fs.readdirSync 'levels'
-        path.basename file, '.json'
-      res.render 'index', levels: levels, game: false
-      for id in levels
-        save_lvl get_lvl_from_file id
+  db.levels.find().sort {name: 1}, (e, l) ->
+    levels = for _l in l then _l.name
+    res.render 'index', levels: levels, game: false
 
-app.get '/lvl/:id', (req, res) ->
-  id = parseInt req.params.id
-  db.levels.find {_id: id}, (e, l) ->
-    if e or l.length is 0
+app.get '/:user/:level', (req, res) ->
+  level = req.params.level
+  user = req.params.user
+  db.users.find {name: user}, (e, u) ->
+    if e or u.length is 0
       res.redirect '/'
       return
-    level = l[0]
-    level.game = yes
-    level.barrier = JSON.stringify level.barrier
-    res.render 'index', level
+    db.levels.find {name: level, uid: u[0]._id}, (e, l) ->
+      if e or l.length is 0
+        res.redirect '/'
+        return
+      level = l[0]
+      db.scores.find {uid: u[0]._id, lid: level._id}, (e, s) ->
+        level.high_score = 0
+        level.high_score = s[0].value if s[0]?
+        level.game = yes
+        level.barrier = JSON.stringify level.barrier
+        res.render 'index', level
 
-app.post '/save_level', (req, res) ->
-  save_lvl JSON.parse req.body
+app.post '/save_level/:user/:level', (req, res) ->
+  level = JSON.parse req.body
+  save_level level, req.params.user, req.params.level
+  res.sendStatus 200
+
+app.post '/save_score/:user/:level', (req, res) ->
+  score = JSON.parse req.body
+  save_score score, req.params.user, req.params.level
   res.sendStatus 200
 
 app.listen 4242

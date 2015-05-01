@@ -95,9 +95,8 @@ class Barrier extends GameObject
     window.barrier_tmp = null
 
     req = getXmlHttp()
-    req.open 'POST', '/save_level', true
+    req.open 'POST', "/save_level#{window.location.pathname}", true
     req.send JSON.stringify
-      _id: document.URL.match(/(\d+)$/)[0]
       width: @game.width
       height: @game.height
       size: @game.size

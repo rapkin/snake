@@ -11,12 +11,14 @@ class Score
     @tag.textContent = @value
 
   set_high: ->
-    cur = localStorage.getItem 'high_score'
-    localStorage.setItem 'high_score', @value if @value > cur
+    if @value > window.high_score
+      window.high_score = @value
+      req = getXmlHttp()
+      req.open 'POST', "/save_score#{window.location.pathname}", true
+      req.send JSON.stringify value: @value
     do @update_high
     return
 
   update_high: ->
-    local = localStorage.getItem 'high_score'
-    @tag_high.textContent = local if local
+    @tag_high.textContent = window.high_score
     return
