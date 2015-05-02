@@ -1,16 +1,16 @@
-autoprefixer = require 'gulp-autoprefixer'
-coffee = require 'gulp-coffee'
-coffeelint = require 'gulp-coffeelint'
-concat = require 'gulp-concat'
-gulp = require 'gulp'
-gulpsync = require('gulp-sync')(gulp)
-gutil = require 'gulp-util'
-minifyCSS = require 'gulp-minify-css'
-notify = require 'gulp-notify'
-plumber = require 'gulp-plumber'
-uglify = require 'gulp-uglify'
-nodemon = require 'gulp-nodemon'
-livereload = require 'gulp-livereload'
+autoprefixer  = require 'gulp-autoprefixer'
+coffee        = require 'gulp-coffee'
+coffeelint    = require 'gulp-coffeelint'
+concat        = require 'gulp-concat'
+gulp          = require 'gulp'
+gulpsync      = require('gulp-sync')(gulp)
+gutil         = require 'gulp-util'
+livereload    = require 'gulp-livereload'
+minifyCSS     = require 'gulp-minify-css'
+nodemon       = require 'gulp-nodemon'
+notify        = require 'gulp-notify'
+plumber       = require 'gulp-plumber'
+uglify        = require 'gulp-uglify'
 
 gulp.task 'lint', ->
   gulp.src ['*.coffee', 'client/*.coffee']
@@ -25,7 +25,6 @@ gulp.task 'coffee', ->
     .on 'error', (error) ->
       gutil.beep()
       gutil.log "Coffee compile error: #{error.name} (#{error.message})"
-
   gulp.src 'client/*.coffee'
     .pipe plumber()
     .pipe coffeeStream
@@ -50,17 +49,16 @@ gulp.task 'reload', ->
 
 gulp.task 'watch', ->
   livereload.listen()
-  nodemon(script: 'server.node.coffee', ext: 'node.coffee')
+  gulp.watch 'client/*.coffee', gulpsync.sync ['recompile', 'reload']
+  gulp.watch 'css/main.css', gulpsync.sync ['css', 'reload']
+  gulp.watch 'views/*', ['reload']
+  nodemon script: 'server.node.coffee', ext: 'node.coffee', tasks: ['lint']
     .on 'restart', ->
       setTimeout (->
         gulp.src 'server.node.coffee'
           .pipe livereload()
           .pipe notify message: 'SERVER reloaded'
         ), 1000
-
-  gulp.watch 'client/*.coffee', gulpsync.sync ['recompile', 'reload']
-  gulp.watch 'css/main.css', gulpsync.sync ['css', 'reload']
-  gulp.watch 'views/*', ['reload']
 
 gulp.task 'recompile', gulpsync.sync [ ['lint', 'coffee'], 'js']
 gulp.task 'default', ['recompile', 'css', 'watch']
