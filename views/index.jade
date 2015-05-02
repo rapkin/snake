@@ -7,30 +7,8 @@ body
   style
     include ../assets/main.css
 
-  if user
-    if user === 'default'
-      #top_nav
-        a(href="/register") Sign up
-        a(href="/login") Login
-        h3 Sign up to get access to all features!
-    else if template !== 'game'
-      #top_nav
-        a(href="/logout") Sing out
-        h3 Hi #{user}
+  #top_nav
+    block top_nav
 
-  else if head_title
-    #top_nav
-      h3= head_title
-
-  case template
-    when 'game'
-      include game.jade
-    when 'levels'
-      include levels.jade
-    when 'register'
-      include register.jade
-    when 'login'
-      include login.jade
-    when 'new_level'
-      include new_level.jade
-
+  block body
+    h1 NONE

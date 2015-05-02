@@ -1,3 +1,8 @@
-form(method="POST" action="/new_level")
-  input.input_field(type="text" name="name" placeholder="Name")
-  input.input_ok(type="submit")
+extends index.jade
+block top_nav
+  h3 New level
+
+block body
+  form(method="POST" action="/new_level")
+    input.input_field(type="text" name="name" placeholder="Name")
+    input.input_ok(type="submit")

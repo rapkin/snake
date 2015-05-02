@@ -1,10 +1,16 @@
-#levels
-  if user && user !== 'default'
-    .label
-      a.new_level_label(href="/new_level") +
-  each name in levels
-    .label
-      a.level_label(href="/#{user}/#{name}")= name
+extends index.jade
 
-      if user && user !== 'default'
-        a.remove(href="/delete_level/#{user}/#{name}") x
+block top_nav
+  include inc/user_panel.jade
+
+block body
+  #levels
+    if user && user !== 'default'
+      .label
+        a.new_level_label(href="/new_level") +
+    each name in levels
+      .label
+        a.level_label(href="/#{user}/#{name}")= name
+
+        if user && user !== 'default'
+          a.remove(href="/delete_level/#{user}/#{name}") x

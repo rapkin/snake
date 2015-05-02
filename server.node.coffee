@@ -93,19 +93,19 @@ app.get '/', (req, res) ->
       return
     db.levels.find(uid: user._id).sort {name: 1}, (e, levels) ->
       names = for _l in levels then _l.name
-      res.render 'index', levels: names, game: false, template: 'levels', user: name
+      res.render 'levels', levels: names, user: name
 
 app.get '/register', (req, res) ->
   if req.cookies.snake_user_name?
     res.redirect '/'
     return
-  res.render 'index', template: 'register', head_title: 'Registration'
+  res.render 'register'
 
 app.get '/login', (req, res) ->
   if req.cookies.snake_user_name?
     res.redirect '/'
     return
-  res.render 'index', template: 'login', head_title: 'Login'
+  res.render 'login'
 
 app.get '/logout', (req, res) ->
   res.clearCookie 'snake_user_name'
@@ -116,7 +116,7 @@ app.get '/new_level', (req, res) ->
   if name is 'default'
     res.redirect '/'
     return
-  res.render 'index', template: 'new_level', head_title: 'New level'
+  res.render 'new_level'
 
 app.get '/delete_level/:user/:name', (req, res) ->
   if req.params.user is 'default'
@@ -142,10 +142,9 @@ app.get '/:user/:level', (req, res) ->
       db.scores.findOne {uid: user._id, lid: lvl._id}, (e, score) ->
         lvl.high_score = 0
         lvl.high_score = score.value if score? and score.value?
-        lvl.template = 'game'
         lvl.user = user.name
         lvl.barrier = JSON.stringify lvl.barrier
-        res.render 'index', lvl
+        res.render 'game', lvl
 
 app.post '/save_level/:user/:level', (req, res) ->
   user = req.cookies.snake_user_name or 'default'

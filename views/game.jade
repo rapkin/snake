@@ -1,47 +1,53 @@
-#game
-  .left
-    span#high_score
-      .value 0
-      include icons/cup.svg
-  span#title Snake
-  .right
-    span#score
-      .value 0
-      include icons/star.svg
-    span#speed
-      .value 0
-      include icons/speedometer.svg
-  .msg
-    #msg_top.msg_hide
-    #msg_bottom.msg_hide
+extends index.jade
 
-script
-  include ../assets/game.min.js
-  | window.barrier = #{barrier};
-  | window.high_score = #{high_score};
-  | window.game = new Game(#{width}, #{height}, #{size}, #{speed});
+block top_nav
+  include inc/user_panel.jade
 
-#help
-  p.help_child
-    b Game mode:<br>
-    | W/&#9650; - turn up (when &#9650;&#9654;&#9660;&#9664;) <br>
-    | S/&#9660; - turn down (when &#9664;&#9654;) <br>
-    | A/&#9664; - turn left <br>
-    | D/&#9654; - turn right <br>
-    | L - switch layout type (&#9664;&#9654; or &#9650;&#9654;&#9660;&#9664;) <br>
-    | ESC/Enter/Space - pause/resume game <br>
-    | E - switch to Edit mode
+block body
+  #game
+    .left
+      span#high_score
+        .value 0
+        include icons/cup.svg
+    span#title Snake
+    .right
+      span#score
+        .value 0
+        include icons/star.svg
+      span#speed
+        .value 0
+        include icons/speedometer.svg
+    .msg
+      #msg_top.msg_hide
+      #msg_bottom.msg_hide
 
-  p.help_child
-    b Edit mode:<br>
-    | &#9650;&#9654;&#9660;&#9664; - resize map <br>
-    | +/- - zoom <br>
-    | &lt; - decrease speed <br>
-    | &gt; - increase speed <br>
-    | mouse - draw points <br>
-    | C - switch clear mode <br>
-    | Enter - save level <br>
-    | ESC - discard changes
+  script
+    include ../assets/game.min.js
+    | window.barrier = #{barrier};
+    | window.high_score = #{high_score};
+    | window.game = new Game(#{width}, #{height}, #{size}, #{speed});
 
-  h4.help_child.full Source code on 
-    a(href="http://github.com/rapkin/snake") GitHub (rapkin/snake)
+  #help
+    p.help_child
+      b Game mode:<br>
+      | W/&#9650; - turn up (when &#9650;&#9654;&#9660;&#9664;) <br>
+      | S/&#9660; - turn down (when &#9664;&#9654;) <br>
+      | A/&#9664; - turn left <br>
+      | D/&#9654; - turn right <br>
+      | L - switch layout type (&#9664;&#9654; or &#9650;&#9654;&#9660;&#9664;) <br>
+      | ESC/Enter/Space - pause/resume game <br>
+      | E - switch to Edit mode
+
+    p.help_child
+      b Edit mode:<br>
+      | &#9650;&#9654;&#9660;&#9664; - resize map <br>
+      | +/- - zoom <br>
+      | &lt; - decrease speed <br>
+      | &gt; - increase speed <br>
+      | mouse - draw points <br>
+      | C - switch clear mode <br>
+      | Enter - save level <br>
+      | ESC - discard changes
+
+    h4.help_child.full Source code on 
+      a(href="http://github.com/rapkin/snake") GitHub (rapkin/snake)
