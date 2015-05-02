@@ -14,8 +14,7 @@ class Score
     if @value > window.high_score
       window.high_score = @value
       req = getXmlHttp()
-      req.open 'POST', "/save_score#{window.location.pathname}", true
-      req.send JSON.stringify value: @value
+      ajax "/save_score#{window.location.pathname}", value: @value
     do @update_high
     return
 
