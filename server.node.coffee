@@ -8,10 +8,10 @@ db = require('mongojs').connect 'mongodb://localhost:27017/snake', ['levels', 'u
 
 # Re-create the database
 db.users.findOne {name: 'default'}, (e, user) ->
-  return if user
-  db.scores.remove {}
-  db.levels.remove {}
-  db.users.remove {}
+  return if user?
+  db.scores.remove()
+  db.levels.remove()
+  db.users.remove()
   save_user 'default'
   console.log '[ DATABASE CREATED ]'
 
@@ -44,22 +44,22 @@ get_lvl_from_file = (name) ->
   lvl.barrier = make_barrier lvl.barrier
   return lvl
 
-save_level = (level, user_name, lvl_name) ->
-  return if user_name is 'default'
+save_level = (level, user_name, lvl_name, cur_user = user_name, callback) ->
+  return if cur_user is 'default' or user_name isnt cur_user
   db.users.findOne {name: user_name}, (e, user) ->
     return unless user?
     db.levels.findOne {name: lvl_name, uid: user._id}, (e, lvl) ->
       level._id = lvl._id if lvl
       level.name = lvl_name
       level.uid = user._id
-      db.levels.save level
+      db.levels.save level, -> callback()
 
 save_score = (score, user_name, lvl_name) ->
   return if user_name is 'default'
   db.users.findOne {name: user_name}, (e, user) ->
     return if e or not user?
     score.uid = user._id
-    db.levels.findOne {name: lvl_name}, (e, lvl) ->
+    db.levels.findOne {name: lvl_name, uid: user._id}, (e, lvl) ->
       return if e or not lvl?
       score.lid = lvl._id
       db.scores.findOne {uid: user._id, lid: lvl._id}, (e, last_score) ->
@@ -148,9 +148,10 @@ app.get '/:user/:level', (req, res) ->
         res.render 'index', lvl
 
 app.post '/save_level/:user/:level', (req, res) ->
+  user = req.cookies.snake_user_name or 'default'
   level = req.body
-  save_level level, req.params.user, req.params.level if level?
-  res.sendStatus 200
+  if level? and user isnt 'default'
+    save_level level, req.params.user, req.params.level, user, -> res.sendStatus 200
 
 app.post '/save_score/:user/:level', (req, res) ->
   score = req.body
@@ -158,13 +159,15 @@ app.post '/save_score/:user/:level', (req, res) ->
   res.sendStatus 200
 
 app.post '/login', (req, res) ->
-  name = req.body.name
-  pass = req.body.pass
+  name = req.body.name.trim()
+  pass = req.body.pass.trim()
   if name is 'default'
     res.redirect '/login'
     return
   db.users.findOne {name: name}, (e, user) ->
-    res.redirect '/login' if e or not user?
+    if e or not user?
+      res.redirect '/login'
+      return
     if user.pass is pass_hash(pass, user.time)
       res.cookie 'snake_user_name', name
       res.redirect '/'
@@ -172,8 +175,8 @@ app.post '/login', (req, res) ->
 
 app.post '/register', (req, res) ->
   regex = /^[a-z0-9_]{3,42}$/
-  name = req.body.name
-  pass = req.body.pass
+  name = req.body.name.trim()
+  pass = req.body.pass.trim()
   if name.match(regex) and pass.match(regex)
     db.users.findOne {name: name}, (e, user) ->
       if not user?
@@ -186,7 +189,8 @@ app.post '/register', (req, res) ->
 app.post '/new_level', (req, res) ->
   user = req.cookies.snake_user_name or 'default'
   return if user is 'default'
-  lvl_name = req.body.name
-  return unless lvl_name.match(/^[a-z0-9_]+$/)
-  save_level get_lvl_from_file(1), user, lvl_name
-  res.redirect '/'
+  lvl_name = req.body.name.trim()
+  if not lvl_name.match(/^[a-z0-9_]{1,23}$/)
+    res.redirect '/new_level'
+    return
+  save_level get_lvl_from_file(1), user, lvl_name, user, -> res.redirect '/'
