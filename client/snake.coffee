@@ -1,7 +1,7 @@
 class Snake extends GameObject
 
   class Head extends GameObject
-    color: '#A13D36'
+    color: '#C13D36'
     constructor: (@game) -> @points = []
 
     set: (point) ->
@@ -11,7 +11,7 @@ class Snake extends GameObject
         @game.snake.set tmp
       super point
 
-  color: '#C9645E'
+  color: '#D58581'
 
   UP: 1
   RIGHT: 2

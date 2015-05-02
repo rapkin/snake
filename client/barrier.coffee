@@ -1,5 +1,5 @@
 class Barrier extends GameObject
-  color: '#DAB890'
+  color: '#292929'
 
   constructor: (@game) ->
     @game.msg_top.tag.parentElement.style.display = 'block'

@@ -13,7 +13,7 @@ db.users.find {name: 'default'}, (e, u) ->
   db.levels.remove {}
   db.users.remove {}
   save_user 'default'
-  console.log "[ DATABASE CREATED ]"
+  console.log '[ DATABASE CREATED ]'
 
 app = express()
 app.listen 4242
@@ -163,8 +163,8 @@ app.post '/login', (req, res) ->
   name = req.body.name
   pass = req.body.pass
   if name is 'default'
-      res.redirect '/login'
-      return
+    res.redirect '/login'
+    return
   db.users.find {name: name}, (e, u) ->
     if e or not u[0]?
       res.redirect '/login'
