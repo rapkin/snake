@@ -183,7 +183,7 @@ app.post '/register', (req, res) ->
         res.cookie 'snake_user_name', name
         res.redirect '/'
       else res.redirect '/register'
-  else res.redirect 'register'
+  else res.redirect '/register'
 
 app.post '/new_level', (req, res) ->
   user = req.cookies.snake_user_name or 'default'

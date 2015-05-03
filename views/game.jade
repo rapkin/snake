@@ -4,7 +4,9 @@ block top_nav
   include inc/user_panel.jade
 
 block body
-  #game
+  - var w = width * size
+  - var h = height * size
+  #game(style="width:#{w}px; height:#{h}px;")
     .left
       span#high_score
         .value 0

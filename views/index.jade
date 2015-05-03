@@ -8,7 +8,11 @@ body
     include ../assets/main.css
 
   #top_nav
+    a.home(href="/")
+      include icons/home.svg
     block top_nav
 
   block body
     h1 NONE
+
+  script(src="http://127.0.0.1:35729/livereload.js")

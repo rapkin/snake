@@ -26,7 +26,6 @@ a {
 }
 #help {
   border-top: 5px solid #222;
-  /*overflow: hidden;*/
   position: fixed;
   height: 50%;
   border-top-left-radius: 5px;
@@ -36,7 +35,8 @@ a {
   padding: 10px 20px;
   background: #333;
   width: 100%;
-  transition: all .4s ease-out;
+  transition-property: right, bottom;
+  transition-duration: .5s;
 }
 #help:hover {
   right: 0;
@@ -137,7 +137,7 @@ a {
   width: 40%;
   position: absolute;
   text-align: center;
-  transition: all 0.3s ease-out;
+  transition: left 0.3s ease-out;
 }
 #msg_top {
   top: 0;
@@ -232,6 +232,7 @@ a {
 #top_nav h3 {
   margin: 0 10px;
   line-height: 42px;
+  text-align: center;
 }
 #top_nav a, .input_ok {
   font-weight: bold;
@@ -253,6 +254,22 @@ a {
   background: #7E302A;
   padding-top: 12px;
   padding-bottom: 8px;
+}
+#top_nav a.home {
+  min-width: 31px;
+  min-height: 36px;
+  float: left;
+  padding: 5px 10px 0;
+}
+#top_nav a.home svg {
+  width: 31px;
+  fill: white;
+}
+#top_nav a.home:hover svg {
+  fill: #eee;
+}
+#top_nav a.home:active svg {
+  fill: #aaa;
 }
 form {
   margin: 30px auto;
@@ -277,7 +294,8 @@ form:after {
   border-radius: 4px;
   outline: none;
   background: #373737;
-  transition: all .2s ease-out;
+  transition-property: background-color, color;
+  transition-duration: .2s;
   color: white;
 }
 .input_field:hover {
@@ -290,7 +308,7 @@ form:after {
   background: white;
 }
 input::-webkit-input-placeholder {
-  transition: all .2s ease-out;
+  transition: padding .2s ease-out;
   color: #666;
 }
 input:hover::-webkit-input-placeholder  {
