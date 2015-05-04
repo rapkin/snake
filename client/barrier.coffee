@@ -57,9 +57,18 @@ class Barrier extends GameObject
     color = 'rgba(255,150,0,.4)' if @clear
     if @mask.length
       last = @mask.pop()
+      last_obj = last.obj
+      last.obj = @game.map
       @game.map.draw_point last
-    @mask.push point
-    @game.map.draw_point point, color
+      last.obj = last_obj
+      @game.map.draw_point last
+
+    if point.obj in [@game.map, @game.barrier]
+      @mask.push point
+      cur_obj = point.obj
+      point.obj = color: color
+      @game.map.draw_point point
+      point.obj = cur_obj
 
   key_action: (key) =>
     if key is @game.key.clear
