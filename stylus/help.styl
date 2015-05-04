@@ -1,0 +1,50 @@
+#help
+  background map-color
+  border-radius 3px
+  box-sizing border-box
+  width 100%
+  height 50%
+  overflow auto
+  padding 10px 20px
+  position fixed
+  right calc(-100% + 66px)
+  bottom calc(-50% + 42px)
+  transition-duration .5s
+  transition-property right, bottom
+  &:before
+    background msg-color
+    border-bottom-right-radius 3px
+    border-top 5px solid msg-color-darken
+    border-top-left-radius 3px
+    box-sizing border-box
+    content 'HELP'
+    font-weight bold
+    width 66px
+    height 42px
+    line-height 15px
+    padding 10px 15px
+    position absolute
+    top 0px
+    left 0
+  &:after
+    background map-color-darken
+    content ''
+    display block
+    width 100%
+    height 5px
+    position absolute
+    top 0
+    left 66px
+  &:hover
+    bottom 0
+    right 0
+
+  .help_child
+    box-sizing border-box
+    display inline-block
+    float left
+    padding 0 10px
+    text-align center
+    width 50%
+  .full
+    width 100%

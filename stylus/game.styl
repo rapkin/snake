@@ -1,0 +1,89 @@
+#game
+  background map-color-darken
+  border 3px solid map-color-darken
+  border-radius 3px
+  border-top 32px solid map-color-darken
+  cursor default
+  margin 30px auto
+  position relative
+  transition all .2s ease-out
+  user-select none
+
+  .right
+    right 5px
+  .left
+    left 30px
+  #title, .right, .left
+    font-size 14px
+    font-weight bold
+    position absolute
+    top -32px
+    text-transform uppercase
+    line-height 32px
+    width 50%
+
+#title
+  font-weight bold
+  text-align center
+  width 100%
+  
+#high_score
+  color high-score-color
+  float left
+  position relative
+  .icon
+    fill high-score-color
+
+#speed, #score
+  float right
+  margin-left 35px
+  position relative
+
+.icon
+  fill main-font-color
+  height 32px
+  position absolute
+  top 0
+  left -25px
+  width 20px
+
+#score
+  color score-color
+  .icon
+    fill score-color
+
+#speed
+  color speed-color
+  .icon
+    fill speed-color
+
+#game_canvas
+  background map-color
+
+.msg_wrapper
+  height 100%
+  overflow hidden
+  position absolute
+  top 0
+  left 0
+  width 100%
+
+#msg_top, #msg_bottom
+  background msg-color
+  border-radius 3px
+  font-size 0.8em
+  padding 10px
+  position absolute
+  text-align center
+  transition left 0.3s ease-out
+  width 40%
+
+#msg_top
+  top 0
+#msg_bottom
+  bottom 0
+
+.msg_hide
+  left -100%
+.msg_show
+  left 0

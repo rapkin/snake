@@ -1,6 +1,6 @@
 {
   "name": "snake",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "description": "game on coffee-script",
   "main": "server.node.coffee",
   "repository": {
@@ -34,6 +34,7 @@
     "gulp-nodemon": "^2.0.2",
     "gulp-notify": "^2.2.0",
     "gulp-plumber": "^0.6.6",
+    "gulp-stylus": "^2.0.1",
     "gulp-sync": "^0.1.4",
     "gulp-uglify": "^1.1.0",
     "gulp-util": "^3.0.4",

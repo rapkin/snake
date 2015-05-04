@@ -1,0 +1,36 @@
+#top_nav
+  background map-color-darken
+  border-bottom 5px solid map-color-darkest
+  box-sizing border-box
+  font-weight bold
+  padding 5px
+  position fixed
+  top 0
+  left 0
+  width 100%
+  z-index 1
+  clearfix()
+
+  h3
+    line-height 42px
+    overflow hidden
+    white-space nowrap
+    margin 0 10px
+    text-align center
+
+  a
+    float right
+  a.home
+    float left !important
+    min-height 36px
+    min-width 31px
+    padding 5px 10px 0
+    &:hover svg
+      fill main-font-color-darken
+    &:active
+      padding 5px 10px 0
+      svg
+        fill darken(main-font-color, 20)
+    svg
+      fill main-font-color
+      width 31px

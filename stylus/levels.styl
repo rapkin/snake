@@ -1,0 +1,70 @@
+#levels
+  background back-color-darken
+  border-bottom 5px solid map-color-darkest
+  padding 10px
+
+  .label
+    display inline-block
+    margin 20px
+    position relative
+
+  .level_label,
+  .new_level_label
+    background map-color
+    border-bottom 6px solid
+    border-color map-color-darken
+    border-radius 5px
+    color main-font-color-darken
+    float left
+    font-size 40px
+    height 60px
+    line-height 60px
+    min-width 60px
+    padding 10px
+    text-align center
+
+  .level_label:hover
+    background map-color-darken
+    border-color map-color-darkest
+    color main-font-color
+
+  .level_label:active,
+  .new_level_label:active
+    background map-color-darkest
+    padding-bottom 8px
+    padding-top 12px
+
+  .new_level_label
+    background new-level-color
+    border-color new-level-color-darken
+    line-height 55px
+    &:hover
+      background new-level-color-darken
+      border-color new-level-color-darkest
+      color main-font-color
+    &:active
+      background new-level-color-darkest
+
+  .remove
+    background button-color
+    border 2px solid main-font-color-darken
+    border-radius 50%
+    color main-font-color-darken
+    box-sizing border-box
+    font-family Helvetica
+    font-size 15px
+    width 32px
+    height 32px
+    line-height 15px
+    padding 5px
+    position absolute
+    top -15px
+    right -15px
+    text-align center
+    z-index 1
+    &:hover
+      background button-color-darken
+      border-color main-font-color
+      color main-font-color
+    &:active
+      background map-color-darken

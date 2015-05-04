@@ -10,6 +10,7 @@ minifyCSS     = require 'gulp-minify-css'
 nodemon       = require 'gulp-nodemon'
 notify        = require 'gulp-notify'
 plumber       = require 'gulp-plumber'
+stylus        = require 'gulp-stylus'
 uglify        = require 'gulp-uglify'
 
 gulp.task 'lint', ->
@@ -36,11 +37,11 @@ gulp.task 'js', ->
     .pipe uglify()
     .pipe gulp.dest 'assets'
 
-gulp.task 'css', ->
-  gulp.src 'css/main.css'
+gulp.task 'stylus', ->
+  gulp.src 'stylus/main.styl'
     .pipe plumber()
+    .pipe stylus()
     .pipe autoprefixer()
-    .pipe minifyCSS()
     .pipe gulp.dest 'assets'
 
 gulp.task 'reload', ->
@@ -50,8 +51,8 @@ gulp.task 'reload', ->
 gulp.task 'watch', ->
   livereload.listen()
   gulp.watch 'client/*.coffee', gulpsync.sync ['recompile', 'reload']
-  gulp.watch 'css/main.css', gulpsync.sync ['css', 'reload']
-  gulp.watch 'views/*', ['reload']
+  gulp.watch 'stylus/*.styl', gulpsync.sync ['stylus', 'reload']
+  gulp.watch 'views/**/*.jade', ['reload']
   nodemon script: 'server.node.coffee', ext: 'node.coffee', tasks: ['lint']
     .on 'restart', ->
       setTimeout (->
@@ -61,4 +62,4 @@ gulp.task 'watch', ->
         ), 1000
 
 gulp.task 'recompile', gulpsync.sync [ ['lint', 'coffee'], 'js']
-gulp.task 'default', ['recompile', 'css', 'watch']
+gulp.task 'default', ['recompile', 'stylus', 'watch']

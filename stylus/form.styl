@@ -1,0 +1,43 @@
+form
+  background map-color-darken
+  border-radius 5px
+  margin 30px auto
+  max-width 300px
+  padding 10px
+  clearfix()
+  .button
+    width 100%
+    margin  10px 0 5px
+
+.input_field
+  background map-color
+  border none
+  border-radius 4px
+  box-sizing border-box
+  color main-font-color-darken
+  font-weight bold
+  height 35px
+  margin-top 10px
+  outline none
+  padding 10px 15px
+  transition-duration .2s
+  transition-property background-color, color
+  width 100%
+  &:hover
+    background lighten(back-color, 5)
+    color map-color-darkest
+  &:focus
+    background lighten(back-color, 15)
+    color map-color-darkest
+    text-align left
+
+input
+  +placeholder()
+    color darken(main-font-color, 50)
+    transition padding .2s ease-out
+  &:hover
+    +placeholder()
+      color map-color-darkest
+  &:focus
+    +placeholder()
+      padding-left 100%
