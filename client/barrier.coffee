@@ -25,6 +25,7 @@ class Barrier extends GameObject
       @mouse_action e
     @game.canvas.onmousedown = (e) =>
       @press = yes
+      @game.canvas.onmouseleave =
       @game.canvas.onmouseup = (e) =>
         @press = no
 
