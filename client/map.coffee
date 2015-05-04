@@ -54,6 +54,22 @@ class Map
       @draw_point p
     return
 
-  draw_point: (p, color = null) ->
-    @game.g.fillStyle = color or p.obj.color
-    @game.g.fillRect p.x*@game.size+1, p.y*@game.size+1, @game.point_size, @game.point_size
+  draw_point: (p, color = p.obj.color) ->
+    g = @game.g
+    g.fillStyle = color
+    g.strokeStyle = color
+    g.lineJoin = 'round'
+    r = g.lineWidth = 3
+
+    x = p.x*@game.size+1
+    y = p.y*@game.size+1
+    w = @game.point_size
+    h = @game.point_size
+
+    if p.obj is @
+      g.fillRect x-1, y-1, w+2, h+2
+      return
+
+    args = [x+r / 2, y+r / 2, w-r, h-r]
+    g.strokeRect args...
+    g.fillRect args...
