@@ -34,7 +34,7 @@ gulp.task 'coffee', ->
 gulp.task 'js', ->
   gulp.src ['assets/js/game_object.js', 'assets/js/*.js']
     .pipe concat 'game.min.js'
-    .pipe uglify()
+    # .pipe uglify()
     .pipe gulp.dest 'assets'
 
 gulp.task 'stylus', ->
@@ -42,6 +42,7 @@ gulp.task 'stylus', ->
     .pipe plumber()
     .pipe stylus()
     .pipe autoprefixer()
+    # .pipe minifyCSS()
     .pipe gulp.dest 'assets'
 
 gulp.task 'reload', ->

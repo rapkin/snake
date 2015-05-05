@@ -33,8 +33,6 @@ class Game
 
     @wrapper = $ 'game'
     @canvas = $ 'game_canvas'
-    @title = tag: $ 'title'
-    do @reset_title
     do @canvas.remove if @canvas?
     @canvas = document.createElement 'canvas'
     @canvas.setAttribute 'id', 'game_canvas'
@@ -66,10 +64,10 @@ class Game
   interupt: (e) =>
     e = e or window.event
     key = e.which
-    if @edit_mode
-      @barrier.key_action key
+    if @editor.enabled
+      @editor.key_action key
     else
-      if key in @key.EDIT then do @edit
+      if key in @key.EDIT then do @editor.start
       if @over
         if key in @key.ESC then do @new
       else
@@ -110,10 +108,6 @@ class Game
     do @msg_bottom.hide
     return
 
-  edit: ->
-    @edit_mode = yes
-    do @new
-
   main_loop: =>
     if @started
       requestAnimationFrame @main_loop
@@ -127,16 +121,5 @@ class Game
 
   get_interval: -> 1000/@speed.value/2
 
-  reset_title: ->
-    @title.tag.children[0].remove() if @title.tag.childElementCount
-    @title.edit = document.createElement 'span'
-    @title.edit.innerHTML = ' (edit mode)'
-    @title.tag.appendChild @title.edit if @edit_mode
-
   new: (width = @width, height = @height, size = @size, speed = @speed.value) ->
     @constructor width, height, size, speed
-
-    if @edit_mode
-      do @food.unset if @food.points.length > 0
-      do @barrier.start_edit
-      do @map.draw

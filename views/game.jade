@@ -28,6 +28,7 @@ block body
     | window.barrier = #{barrier};
     | window.high_score = #{high_score};
     | window.game = new Game(#{width}, #{height}, #{size}, #{speed});
+    | window.editor = new Editor(window.game);
 
   #help
     p.help_child
