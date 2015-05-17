@@ -1,6 +1,6 @@
 Snake
 ======
-###[Demo](http://rapkin.com.ua/snake)
+###[Demo](https://snake-on-coffee.herokuapp.com/)
 
 HTML5/JavaScript game writed on CoffeeScript.
 There is levels-editor in addition to the game.

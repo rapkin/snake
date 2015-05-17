@@ -11,7 +11,6 @@ nodemon       = require 'gulp-nodemon'
 notify        = require 'gulp-notify'
 plumber       = require 'gulp-plumber'
 stylus        = require 'gulp-stylus'
-uglify        = require 'gulp-uglify'
 
 gulp.task 'lint', ->
   gulp.src ['*.coffee', 'client/*.coffee']
@@ -34,7 +33,6 @@ gulp.task 'coffee', ->
 gulp.task 'js', ->
   gulp.src ['assets/js/game_object.js', 'assets/js/*.js']
     .pipe concat 'game.min.js'
-    .pipe uglify()
     .pipe gulp.dest 'assets'
 
 gulp.task 'stylus', ->
@@ -53,6 +51,8 @@ gulp.task 'watch', ->
   gulp.watch 'client/*.coffee', gulpsync.sync ['recompile', 'reload']
   gulp.watch 'stylus/*.styl', gulpsync.sync ['stylus', 'reload']
   gulp.watch 'views/**/*.jade', ['reload']
+
+gulp.task 'start', ->
   nodemon script: 'server.node.coffee', ext: 'node.coffee', tasks: ['lint']
     .on 'restart', ->
       setTimeout (->
@@ -62,4 +62,5 @@ gulp.task 'watch', ->
         ), 1000
 
 gulp.task 'recompile', gulpsync.sync [ ['lint', 'coffee'], 'js']
-gulp.task 'default', ['recompile', 'stylus', 'watch']
+gulp.task 'default', ['recompile', 'stylus', 'start', 'watch']
+gulp.task 'heroku', ['recompile', 'stylus', 'start']

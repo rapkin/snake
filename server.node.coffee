@@ -1,10 +1,12 @@
+config = require './config.json'
 express = require 'express'
 fs = require 'fs'
 md5 = require 'MD5'
 path = require 'path'
 bodyParser = require 'body-parser'
 cookieParser = require 'cookie-parser'
-db = require('mongojs').connect 'mongodb://localhost:27017/snake', ['levels', 'users', 'scores']
+
+db = require('mongojs').connect config.mongo_uri, ['levels', 'users', 'scores']
 
 # Re-create the database
 db.users.findOne {name: 'default'}, (e, user) ->
@@ -16,7 +18,9 @@ db.users.findOne {name: 'default'}, (e, user) ->
   console.log '[ DATABASE CREATED ]'
 
 app = express()
-app.listen 4242
+app.set 'port', process.env.PORT or 4242
+app.listen app.get('port'), -> console.log "Started on #{app.get('port')}"
+
 app.set 'view engine', 'jade'
 app.use bodyParser.json()
 app.use cookieParser()

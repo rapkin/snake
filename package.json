@@ -36,7 +36,6 @@
     "gulp-plumber": "^0.6.6",
     "gulp-stylus": "^2.0.1",
     "gulp-sync": "^0.1.4",
-    "gulp-uglify": "^1.1.0",
     "gulp-util": "^3.0.4",
     "jade": "^1.9.2",
     "mongojs": "^0.18.2"
