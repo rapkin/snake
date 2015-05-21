@@ -2,21 +2,24 @@ class Editor
   enabled: no
   barrier: null
 
-  # FIXME PLEASE
-
   constructor: (@game) ->
     @game.editor = @
     @key = @game.key
     @title = tag: $ 'title'
 
-  reset_title: ->
-    @title.tag.children[0].remove() if @title.tag.childElementCount
+
+  set_title: ->
     @title.edit = document.createElement 'span'
     @title.edit.innerHTML = ' (edit mode)'
-    @title.tag.appendChild @title.edit if @editor.enabled
+    @title.tag.appendChild @title.edit
+
+  unset_title: -> @title.tag.children[0].remove()
 
   start: ->
     log '# EDIT MODE'
+    @enabled = yes
+    do @game.new
+    do @set_title
     @mask = []
     @clear = no
     do @save_barrier
@@ -35,13 +38,15 @@ class Editor
       @game.canvas.onmouseup = (e) =>
         @press = no
 
-  stop_edit: ->
+  stop: ->
+    do @unset_title
     @enabled = no
     @game.canvas.onkeydown = null
     @game.canvas.onclick = null
     @game.canvas.onmousedown = null
     @game.canvas.onmouseup = null
     @game.canvas.onmousemove = null
+    do @game.new
 
   mouse_action: (e) ->
     rect = @game.canvas.getBoundingClientRect()
@@ -91,21 +96,19 @@ class Editor
     if key is @key.higher then do @game.speed.up
     if key is @key.lower then do @game.speed.down
     if key in @key.ESC
-      if key is @key.enter then do @serialize
-      do @game.new
-    do @stop_edit
+      if key is @key.enter then do @save
+      do @stop
 
   save_barrier: ->
-    window.barrier_tmp = []
+    @barrier = []
     for p in @game.barrier.points
-      window.barrier_tmp.push [p.x, p.y]
-    return
+      @barrier.push [p.x, p.y]
 
-  serialize: ->
+  save: ->
     window.barrier = []
-    for p in @points
+    for p in @game.barrier.points
       window.barrier.push [p.x, p.y]
-    window.barrier_tmp = null
+    @barrier = null
 
     ajax "/save_level#{window.location.pathname}",
       width: @game.width
@@ -113,7 +116,6 @@ class Editor
       size: @game.size
       speed: @game.speed.value
       barrier: window.barrier or []
-    return
 
   change_game_param: (param, value) ->
     @game[param] += value

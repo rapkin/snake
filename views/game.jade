@@ -26,9 +26,9 @@ block body
   script
     include ../assets/game.min.js
     | window.barrier = #{barrier};
-    | window.high_score = #{high_score};
-    | window.game = new Game(#{width}, #{height}, #{size}, #{speed});
-    | window.editor = new Editor(window.game);
+    | game = new Game(#{width}, #{height}, #{size}, #{speed});
+    | editor = new Editor(window.game);
+    | game.score.set_high(#{high_score});
 
   #help
     p.help_child

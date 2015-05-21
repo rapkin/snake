@@ -48,7 +48,6 @@ class Map
     while @updated.length > 0
       p = @updated.pop()
       @draw_point p
-    return
 
   draw_point: (p, color = p.obj.color) ->
     g = @game.g

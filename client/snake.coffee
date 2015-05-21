@@ -52,8 +52,8 @@ class Snake extends GameObject
     else
       @game.started = no
       @game.over = yes
-      do @game.score.set_high
-      
+      do @game.score.new_high
+
       unless @game.win
         @game.msg_bottom.show """
           GAME OVER! Your score <b>#{@game.score.value}</b>.

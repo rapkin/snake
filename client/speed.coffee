@@ -1,22 +1,16 @@
 class Speed
-  constructor: (@game, @value) ->
+  constructor: (@game) ->
     @tag = value_tag $ 'speed'
-    do @show
+    @set 5
 
-  show: ->
-    @tag.textContent = @value
-    return
+  set: (@value) -> @tag.textContent = @value
 
   up: ->
-    unless @value >= 30
-      @value+=1
-      @game.interval = @game.get_interval()
-      do @show
-    return
+    if @value < 30
+      @set @value + 1
+      do @game.update_interval
 
   down: ->
-    unless @value <= 1
-      @value-=1
-      @game.interval = @game.get_interval()
-      do @show
-    return
+    if @value > 1
+      @set @value - 1
+      do @game.update_interval
