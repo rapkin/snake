@@ -15,11 +15,7 @@ class Map
     for i in [0...@game.width]
       @points[i] = []
       for k in [0...@game.height]
-        p =
-          x: i
-          y: k
-          obj: @
-
+        p = x: i, y: k, obj: @
         @points[i][k] = p
         @set p, @
 
@@ -28,7 +24,7 @@ class Map
 
   get: (x, y) ->
     return @points[x][y] if 0 <= x < @game.width and 0 <= y < @game.height
-    log "Undefined coordinate [#{x}, #{y}]"
+    warn "Undefined coordinate [#{x}, #{y}]"
     return null
 
   set: (point, obj) ->

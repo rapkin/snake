@@ -1,4 +1,5 @@
 log = (str) -> console.log str
+warn = (str) -> console.warn str
 
 $ = (id) -> document.getElementById id
 
