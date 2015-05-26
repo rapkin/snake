@@ -144,10 +144,9 @@ app.get '/:user/:level', (req, res) ->
         res.redirect '/'
         return
       db.scores.findOne {uid: user._id, lid: lvl._id}, (e, score) ->
-        lvl.high_score = 0
-        lvl.high_score = score.value if score? and score.value?
+        lvl.high_score = if score?.value? then score.value else 0
         lvl.user = user.name
-        lvl.barrier = JSON.stringify lvl.barrier
+        lvl.barrier = JSON.stringify(lvl.barrier or [])
         res.render 'game', lvl
 
 app.post '/save_level/:user/:level', (req, res) ->

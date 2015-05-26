@@ -2,7 +2,6 @@ class Barrier extends GameObject
   color: '#292929'
 
   constructor: (@game) ->
-    @game.msg_top.tag.parentElement.style.display = 'block'
     @points = []
     points = window.barrier or []
     for p in points

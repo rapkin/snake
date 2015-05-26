@@ -31,7 +31,6 @@ class Game
     @width = 4 if @width < 4
     @size = 4 if @size < 4
 
-    do @init_canvas
     do @init_objects
     @speed.set speed
     do @update_interval
@@ -44,20 +43,12 @@ class Game
         <b>DONT MAKE LVL LIKE THIS!!!</b><br>
         Edit please (press <b>E</b>)
         '''
-
     window.captureEvents Event.KEYPRESS
     window.onkeydown = @interupt
 
-  init_canvas: ->
+  init_objects: ->
     @wrapper = $ 'game'
     @canvas = $ 'game_canvas'
-    do @canvas.remove if @canvas?
-    @canvas = document.createElement 'canvas'
-    @canvas.setAttribute 'id', 'game_canvas'
-    @wrapper.appendChild @canvas
-
-
-  init_objects: ->
     @editor = @editor ? enabled: false
     @msg_top = new Message $ 'msg_top'
     @msg_bottom = new Message $ 'msg_bottom'

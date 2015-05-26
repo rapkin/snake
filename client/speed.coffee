@@ -1,7 +1,6 @@
 class Speed
   constructor: (@game) ->
     @tag = value_tag $ 'speed'
-    @set 5
 
   set: (@value) -> @tag.textContent = @value
 

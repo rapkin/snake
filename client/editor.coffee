@@ -1,12 +1,10 @@
 class Editor
-  enabled: no
-  barrier: null
-
   constructor: (@game) ->
     @game.editor = @
     @key = @game.key
+    @enabled = no
+    @backup = null
     @title = tag: $ 'title'
-
 
   set_title: ->
     @title.edit = document.createElement 'span'
@@ -15,17 +13,22 @@ class Editor
 
   unset_title: -> @title.tag.children[0].remove()
 
-  start: ->
-    log '# EDIT MODE'
-    @enabled = yes
+  update_game: ->
     do @game.new
-    do @set_title
-    @mask = []
-    @clear = no
-    do @save_barrier
+    do @game.food.unset
+    do @game.map.draw
     do @game.msg_bottom.hide
-    @game.msg_top.tag.parentElement.style.display = 'none'
     @game.canvas.style.cursor = 'crosshair'
+    @game.msg_top.tag.parentElement.style.display = 'none'
+
+  start: ->
+    log '# EDIT MODE ENABLED'
+    @enabled = yes
+    @clear = no
+    @mask = []
+    do @update_game
+    do @set_title
+    do @backup_level
 
     @game.canvas.onclick = (e) =>
       @click = yes
@@ -39,6 +42,7 @@ class Editor
         @press = no
 
   stop: ->
+    log '# EDIT MODE DISABLED'
     do @unset_title
     @enabled = no
     @game.canvas.onkeydown = null
@@ -46,6 +50,7 @@ class Editor
     @game.canvas.onmousedown = null
     @game.canvas.onmouseup = null
     @game.canvas.onmousemove = null
+    @game.msg_top.tag.parentElement.style.display = 'block'
     do @game.new
 
   mouse_action: (e) ->
@@ -97,27 +102,36 @@ class Editor
     if key is @key.lower then do @game.speed.down
     if key in @key.ESC
       if key is @key.enter then do @save
+      else do @restore_level
       do @stop
 
-  save_barrier: ->
-    @barrier = []
+  push_barrier_to: (dest) ->
     for p in @game.barrier.points
-      @barrier.push [p.x, p.y]
+      dest.push [p.x, p.y]
 
-  save: ->
-    window.barrier = []
-    for p in @game.barrier.points
-      window.barrier.push [p.x, p.y]
-    @barrier = null
-
-    ajax "/save_level#{window.location.pathname}",
+  backup_level: ->
+    @backup =
+      barrier: []
       width: @game.width
       height: @game.height
-      size: @game.size
       speed: @game.speed.value
-      barrier: window.barrier or []
+      size: @game.size
+    @push_barrier_to @backup.barrier
+
+  restore_level: ->
+    @game.width = @backup.width
+    @game.height = @backup.height
+    @game.size = @backup.size
+    @game.speed.set @backup.speed
+    window.barrier = @backup.barrier
+
+  save: ->
+    do @backup_level
+    window.barrier = @backup.barrier
+    ajax "/save_level#{window.location.pathname}", @backup
 
   change_game_param: (param, value) ->
     @game[param] += value
-    do @save_barrier
-    do @game.new
+    window.barrier = []
+    @push_barrier_to window.barrier
+    do @update_game
