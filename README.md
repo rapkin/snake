@@ -2,7 +2,7 @@ Snake
 ======
 ###[Demo](https://snake-on-coffee.herokuapp.com/)
 
-HTML5/JavaScript game writed on CoffeeScript.
+HTML5/JavaScript game written on CoffeeScript.
 There is levels-editor in addition to the game.
 
 ###Build with Gulp

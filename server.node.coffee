@@ -153,7 +153,8 @@ app.post '/save_level/:user/:level', (req, res) ->
   user = req.cookies.snake_user_name or 'default'
   level = req.body
   if level? and user isnt 'default'
-    save_level level, req.params.user, req.params.level, user, -> res.sendStatus 200
+    save_level level, req.params.user, req.params.level, user, ->
+      res.sendStatus 200
 
 app.post '/save_score/:user/:level', (req, res) ->
   score = req.body

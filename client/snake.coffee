@@ -59,7 +59,6 @@ class Snake extends GameObject
           GAME OVER! Your score <b>#{@game.score.value}</b>.
           <br>Press <b>Space/Enter/Esc</b> to restart
         """
-    return
 
   get_next: ->
     x = @head.points[0].x
@@ -89,7 +88,6 @@ class Snake extends GameObject
       else if turn is 'l'
         if @direction > 1 then @direction-=1
         else @direction = @LEFT
-    return
 
   turn: (dir = 'l') -> @stack.push dir
 
@@ -107,7 +105,6 @@ class Snake extends GameObject
       when 'd'
         if @direction is @LEFT then @turn 'l'
         if @direction is @RIGHT then @turn 'r'
-    return
 
   is_free: (point) -> point.obj is @game.map or @food
 

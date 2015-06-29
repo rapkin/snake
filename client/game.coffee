@@ -15,7 +15,7 @@ class Game
     DOWN: [40, 83]
 
   layout:
-    now: 1
+    now: 2
     left_right: 1
     up_right_down_left: 2
 
